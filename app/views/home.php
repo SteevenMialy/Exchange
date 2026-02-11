@@ -823,23 +823,7 @@
     <!-- Vendor End -->
 
     <?php include 'includes/footer.php'; ?>
-
-    <!-- JavaScript Libraries -->
-    <!-- <script src="lib/jquery/jquery-3.4.1.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
     
-
-     Template Javascript -->
-    <script src="js/main.js"></script> 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Include Bootstrap Bundle JS -->
-    <script src="<?= BASE_URL ?>/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Include Main JS -->
-    <script src="<?= BASE_URL ?>/js/main.js"></script>
 </body>
 
 </html>

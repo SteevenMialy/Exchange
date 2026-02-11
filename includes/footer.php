@@ -71,3 +71,16 @@
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+<script src="js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Bootstrap Bundle JS -->
+<script src="<?= BASE_URL ?>/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Include Main JS -->
+<script src="<?= BASE_URL ?>/js/main.js"></script>
