@@ -23,11 +23,12 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
-	Flight::route('/signIn', [UserController::class, 'save']);
 
 	$router->get('/home', function ($id) use ($app) {
 		$controller = new ObjectController($app);
-		$app->render('home');
+		$app->render('home', [
+			'objects' => ObjectController::getAllObjectUserCo($id)
+		]);
 	});
 
 	$router->get('/adminpage', function () use ($app) {
