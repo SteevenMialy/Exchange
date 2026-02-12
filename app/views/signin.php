@@ -1,5 +1,20 @@
 <?php
-// Login View
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Get login errors from session and clear them
+$errors = $_SESSION['signin_errors'] ?? [];
+unset($_SESSION['signin_errors']);
+
+function e($v)
+{
+    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+}
+function cls_invalid($errors, $field)
+{
+    return ($errors[$field] ?? '') !== '' ? 'is-invalid' : '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,28 +62,52 @@
 
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Sign in</h2>
+        <?php if (!empty($errors['_global'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= e($errors['_global']) ?>
+            </div>
+        <?php endif; ?>
         <div id="formStatus"></div>
-        <form action="<?= BASE_URL ?>/signin" id="registerForm">
+        <form action="<?= BASE_URL ?>/signIn" method="POST" id="registerForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
-                <div id="nomError"></div>
+                <input type="text" class="form-control <?= cls_invalid($errors, 'username') ?>" id="username" name="username" placeholder="Enter your username" required>
+                <div class="invalid-feedback" id="usernameError">
+                    <?= e($errors['username'] ?? '') ?>
+                </div>
             </div>
             <div class="form-group" id="passwordGroup">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-                <div id="passwordError"></div>
+                <div class="input-group">
+                    <input type="password" class="form-control <?= cls_invalid($errors, 'password') ?>" id="password" name="password" placeholder="Enter your password" required>
+                    <button type="button" id="togglePassword" class="btn btn-outline-secondary">Show</button>
+                </div>
+                <div class="invalid-feedback" id="passwordError">
+                    <?= e($errors['password'] ?? '') ?>
+                </div>
             </div>
             <div class="form-group" id="passwordconfirmationGroup">
                 <label for="passwordconfirmation">Confirm Password</label>
-                <input type="password" class="form-control" id="passwordconfirmation" name="passwordconfirmation" placeholder="Confirm your password" required>
-                <div id="confirmError"></div>
+                <div class="input-group">
+                    <input type="password" class="form-control <?= cls_invalid($errors, 'confirmPassword') ?>" id="passwordconfirmation" name="passwordconfirmation" placeholder="Confirm your password" required>
+                </div>
+                <div class="invalid-feedback" id="confirmPasswordError">
+                    <?= e($errors['confirmPassword'] ?? '') ?>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
             <p class="text-center mt-3"><a href="<?= BASE_URL ?>/">Login</a></p>
         </form>
     </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const passwordFieldType = passwordField.getAttribute('type');
+            passwordField.setAttribute('type', passwordFieldType === 'password' ? 'text' : 'password');
+            this.textContent = passwordFieldType === 'password' ? 'Hide' : 'Show';
+        });
+    </script>
 </body>
 
 </html>

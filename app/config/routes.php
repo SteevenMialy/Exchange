@@ -22,6 +22,7 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
+	Flight::route('/signIn', [UserController::class, 'save']);
 
 	$router->get('/home', function () use ($app) {
 		$app->render('home');

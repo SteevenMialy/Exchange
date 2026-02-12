@@ -13,11 +13,21 @@ class UserController
 
 	protected Engine $app;
 
+    public static function save(){
+        $user = new User();
+
+        $req = Flight::request();
+
+        $user->setUsername($req->data->username);
+        $user->setPassword($req->data->password);
+
+        $user->insert(Flight::db());
+    }
+
 	public static function validateSignin()
     {
         header('Content-Type: application/json; charset=utf-8');
 		try {
-            $pdo  = Flight::db();
             $repo = new User();
 
             $req = Flight::request();

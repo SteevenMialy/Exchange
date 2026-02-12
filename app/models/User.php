@@ -103,4 +103,14 @@ class User
     {
         $this->username = $username;
     }
+
+    public function getPwd()
+    {
+        return $this->pwd;
+    }
+
+    public function setPassword($pwd)
+    {
+        $this->pwd = $pwd;
+    }
 }
