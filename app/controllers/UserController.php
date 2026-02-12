@@ -24,7 +24,12 @@ class UserController
 
         $user->insert(Flight::db());
 
-        Flight::redirect('/home/');
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['user'] = $user;
+
+        Flight::redirect('/home');
     }
 
 	public static function validateSignin()
