@@ -102,4 +102,13 @@ class Admin
     {
         $this->pwd = $pwd;
     }
+
+    public function verifiemdp($pwd)
+    {
+        if (password_verify($pwd, $this->pwd)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
