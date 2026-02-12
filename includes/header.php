@@ -76,6 +76,32 @@
     transform: scale(1.1);
 }
 
+/* Responsive styles for the authentication modal */
+@media (max-width: 768px) {
+    #authentification {
+        width: 90%;
+        padding: 20px;
+    }
+
+    #authentification h4 {
+        font-size: 18px;
+    }
+
+    #authentification input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #authentification button[type="submit"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .close-btn {
+        font-size: 16px;
+    }
+}
+
 </style>
 <script>
 function openAuth() {
@@ -236,7 +262,7 @@ function handleAuthSubmit(event) {
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="<?= BASE_URL ?>/" class="nav-item nav-link active">Home</a>
+                        <a href="<?= BASE_URL ?>/home" class="nav-item nav-link active">Home</a>
                         <a href="<?= BASE_URL ?>/shop" class="nav-item nav-link">Shop</a>
                         <a href="<?= BASE_URL ?>/shopCart" class="nav-item nav-link">Shop Cart</a>
                         <a href="<?= BASE_URL ?>/checkout" class="nav-item nav-link">Checkout</a>
