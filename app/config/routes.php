@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\UserController;
+use app\controllers\ObjectController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -19,8 +20,11 @@ $router->group('', function (Router $router) use ($app) {
 
 	Flight::route('/api/validate/login', [UserController::class, 'validateLogin']);
 
-	$router->get('/home', function () use ($app) {
-		$app->render('home');
+	$router->get('/home', function ($id) use ($app) {
+		$controller = new ObjectController($app);
+		$app->render('home', [
+			'objects' => ObjectController::getAllObjectUserCo($id)
+		]);
 	});
 
 	$router->get('/adminpage', function () use ($app) {
