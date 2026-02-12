@@ -1,6 +1,6 @@
 <?php
 
-use app\controllers\Cooperativecontroller;
+use app\controllers\UserController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -16,6 +16,8 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/', function () use ($app) {
 		$app->render('login');
 	});
+
+	Flight::route('/api/validate/login', [UserController::class, 'validateLogin']);
 
 	$router->get('/home', function () use ($app) {
 		$app->render('home');
