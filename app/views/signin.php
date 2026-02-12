@@ -82,18 +82,19 @@ function cls_invalid($errors, $field)
                 <div class="input-group">
                     <input type="password" class="form-control <?= cls_invalid($errors, 'password') ?>" id="password" name="password" placeholder="Enter your password" required>
                     <button type="button" id="togglePassword" class="btn btn-outline-secondary">Show</button>
-                </div>
-                <div class="invalid-feedback" id="passwordError">
-                    <?= e($errors['password'] ?? '') ?>
+                    <div class="invalid-feedback" id="passwordError">
+                        <?= e($errors['password'] ?? '') ?>
+                    </div>
                 </div>
             </div>
             <div class="form-group" id="passwordconfirmationGroup">
                 <label for="passwordconfirmation">Confirm Password</label>
                 <div class="input-group">
                     <input type="password" class="form-control <?= cls_invalid($errors, 'confirmPassword') ?>" id="passwordconfirmation" name="passwordconfirmation" placeholder="Confirm your password" required>
-                </div>
-                <div class="invalid-feedback" id="confirmPasswordError">
-                    <?= e($errors['confirmPassword'] ?? '') ?>
+                    <button type="button" id="toggleConfirmPassword" class="btn btn-outline-secondary">Show</button>
+                    <div class="invalid-feedback" id="confirmPasswordError">
+                        <?= e($errors['confirmPassword'] ?? '') ?>
+                    </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
@@ -103,6 +104,13 @@ function cls_invalid($errors, $field)
     <script>
         document.getElementById('togglePassword').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
+            const passwordFieldType = passwordField.getAttribute('type');
+            passwordField.setAttribute('type', passwordFieldType === 'password' ? 'text' : 'password');
+            this.textContent = passwordFieldType === 'password' ? 'Hide' : 'Show';
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('passwordconfirmation');
             const passwordFieldType = passwordField.getAttribute('type');
             passwordField.setAttribute('type', passwordFieldType === 'password' ? 'text' : 'password');
             this.textContent = passwordFieldType === 'password' ? 'Hide' : 'Show';

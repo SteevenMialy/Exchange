@@ -18,10 +18,13 @@ class UserController
 
         $req = Flight::request();
 
+        $hashedPassword = password_hash($req->data->password, PASSWORD_DEFAULT);
         $user->setUsername($req->data->username);
-        $user->setPassword($req->data->password);
+        $user->setPassword($hashedPassword);
 
         $user->insert(Flight::db());
+
+        Flight::redirect('/home/');
     }
 
 	public static function validateSignin()
@@ -35,7 +38,7 @@ class UserController
             $input = [
                 'username' => $req->data->username ?? '',
                 'password' => $req->data->password ?? '',
-                'confirmPassword' => $req->data->confirmPassword ?? '',
+                'confirmPassword' => $req->data->passwordconfirmation ?? '',
             ];
 
             $res = Validator::validateRegister($input, $repo);

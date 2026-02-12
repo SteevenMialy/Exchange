@@ -87,12 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
         setStatus("success", "Validation OK ✅ Envoi en cours...");
         form.submit(); // soumission finale vers register.php (qui revalide)
       } else {
-        alert("Validation en cours else...");
         setStatus("danger", "Veuillez corriger les erreurs.");
+        /* for(let i = 0; i < data.errors.length(); i++) {
+          var element = document.getElementById(data.errors
+        } */
       }
     } catch (err) {
       setStatus("warning", err.message || "Une erreur est survenue.");
-        alert("Validation en cours catch  ...");
+        //alert("Validation en cours catch  ...");
 
     }
   });

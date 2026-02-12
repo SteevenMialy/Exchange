@@ -27,9 +27,7 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/home', function ($id) use ($app) {
 		$controller = new ObjectController($app);
-		$app->render('home', [
-			'objects' => ObjectController::getAllObjectUserCo($id)
-		]);
+		$app->render('home');
 	});
 
 	$router->get('/adminpage', function () use ($app) {

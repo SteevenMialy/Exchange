@@ -22,17 +22,12 @@ class Validator
 
         $values = [
             'username' => trim((string)($input['username'] ?? '')),
-            'email' => trim((string)($input['email'] ?? ''))
         ];
 
         $password = (string)($input['password'] ?? '');
         $confirm  = (string)($input['confirmPassword'] ?? '');
 
         if (mb_strlen($values['username']) < 2) $errors['username'] = "Le nom d'utilisateur doit contenir au moins 2 caractères.";
-
-        if ($values['email'] === '') $errors['email'] = "L'email est obligatoire.";
-        elseif (!filter_var($values['email'], FILTER_VALIDATE_EMAIL))
-            $errors['email'] = "L'email n'est pas valide (ex: nom@domaine.com).";
 
         if (strlen($password) < 8) {
             $errors['password'] = "Le mot de passe doit contenir au moins 8 caractères.";
