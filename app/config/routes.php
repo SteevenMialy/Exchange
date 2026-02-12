@@ -28,6 +28,9 @@ $router->group('', function (Router $router) use ($app) {
 
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 
+	//Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
+	Flight::route('/signIn', [UserController::class, 'save']);
+
 	$router->get('/home', function () use ($app) {
 		$id = $_SESSION['user']->id ?? null;
 		$controller = new ObjectController($app);
