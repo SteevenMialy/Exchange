@@ -18,6 +18,24 @@ class User
         $this->pwd = $pwd;
     }
 
+    public function findUser($db, $conditions = [])
+    {
+        $sql = "SELECT * FROM exch_user WHERE 1=1";
+        $params = [];
+        if($this->username != null) {
+            $sql .= " AND username = :username";
+            $params[':username'] = $this->username;
+        }
+        if($this->pwd != null) {
+            $sql .= " AND pwd = :pwd";
+            $params[':pwd'] = $this->pwd;
+        }
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function insert($db): int
     {
         $sql = "INSERT INTO exch_user (username,pwd) 

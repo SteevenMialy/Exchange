@@ -26,10 +26,31 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('signin');
 	});
 
-	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
+	$router->get('/disconnect', function () use ($app) {
+		if (session_status() === PHP_SESSION_ACTIVE) {
+			if (ini_get("session.use_cookies")) {
+				$params = session_get_cookie_params();
+				setcookie(
+					session_name(),
+					'',
+					time() - 42000,
+					$params["path"],
+					$params["domain"],
+					$params["secure"],
+					$params["httponly"]
+				);
+			}
 
-	//Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
+			session_destroy();
+			Flight::redirect('/');
+		}
+	});
+
+	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 	Flight::route('/signIn', [UserController::class, 'save']);
+
+	Flight::route('/api/validate/login', [UserController::class, 'validateLogin']);
+	Flight::route('/login', [UserController::class, 'check']);
 
 	$router->get('/home', function () use ($app) {
 		$id = $_SESSION['user']->id ?? null;
@@ -37,10 +58,6 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('home', [
 			'objects' => ObjectController::getAllObjectUserCo($id)
 		]);
-	});
-
-	$router->get('/adminpage', function () use ($app) {
-		$app->render('AdminPage');
 	});
 
 	$router->get('/adminpage', function () use ($app) {

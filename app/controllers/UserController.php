@@ -13,6 +13,41 @@ class UserController
 
 	protected Engine $app;
 
+    public static function check(){
+        $user = new User();
+
+        $req = Flight::request();
+
+        $user->setUsername($req->data->username);
+        $listUsers = $user->findUser(Flight::db());
+
+        $retour = null;
+        foreach ($listUsers as $u) {
+            if (password_verify($req->data->password, $u['pwd'])) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $retour = $u;
+            }
+        }
+        
+        if($retour != null){
+            $_SESSION['user'] = $retour;
+            Flight::redirect('/home');
+        } else {
+            Flight::json([
+                'ok' => false,
+                'errors' => [
+                    'username' => '',
+                    'password' => 'Nom d\'utilisateur ou mot de passe incorrect.'
+                ],
+                'values' => []
+            ]);
+        }
+
+        return;
+    }
+
     public static function save(){
         $user = new User();
 
@@ -47,6 +82,38 @@ class UserController
             ];
 
             $res = Validator::validateRegister($input, $repo);
+
+            Flight::json([
+                'ok' => $res['ok'],
+                'errors' => $res['errors'],
+                'values' => $res['values'],
+            ]);
+        } catch (Throwable $e) {
+            error_log("Erreur validation: " . $e->getMessage());
+            error_log($e->getTraceAsString());
+            http_response_code(500);
+            Flight::json([
+                'ok' => false,
+                'errors' => ['_global' => 'Erreur serveur: ' . $e->getMessage()],
+                'values' => []
+            ]);
+        }
+	}
+
+    public static function validateLogin()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+		try {
+            $repo = new User();
+
+            $req = Flight::request();
+
+            $input = [
+                'username' => $req->data->username ?? '',
+                'password' => $req->data->password ?? '',
+            ];
+
+            $res = Validator::validateLogin($input, $repo);
 
             Flight::json([
                 'ok' => $res['ok'],
