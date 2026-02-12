@@ -14,6 +14,10 @@ use flight\net\Router;
 $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/', function () use ($app) {
+		$app->render('login');
+	});
+
+	$router->get('/home', function () use ($app) {
 		$app->render('home');
 	});
 
@@ -31,11 +35,6 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/contact', function () use ($app) {
 		$app->render('contact');
-	});
-
-	// Add a route for the login view
-	$router->get('/login', function() use ($app) {
-		$app->render('login');
 	});
 
 }, [SecurityHeadersMiddleware::class]);

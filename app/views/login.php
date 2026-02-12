@@ -7,8 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/style.min.css">
+    <script defer src="<?= BASE_URL ?>/js/validation-ajax.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -46,12 +47,30 @@
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="passwordGroup">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             </div>
+            <div class="form-group form-check" id="adminCheck">
+                <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
+                <label class="form-check-label" for="isAdmin">Login as Admin</label>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <p class="text-center mt-3"><a id="inscription">S'inscrire</a></p>
         </form>
     </div>
+
+    <script>
+        var isadmin = document.getElementById('isAdmin');
+        var inscription = document.getElementById('inscription');
+        var adminCheck = document.getElementById('adminCheck');
+        
+        inscription.addEventListener('click', function() {
+            adminCheck
+        });
+
+        
+    </script>
+
 </body>
 </html>
