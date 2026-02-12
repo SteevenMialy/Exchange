@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const stautCon = 0;
 
   const map = {
-    nom: { input: "#username", err: "#nomError" },
+    username: { input: "#username", err: "#usernameError" },
     password: { input: "#password", err: "#passwordError" },
-    confirm: { input: "#passwordconfirmation", err: "#confirmError" },
+    confirmPassword: { input: "#passwordconfirmation", err: "#confirmPasswordError" },
   };
 
   function setStatus(type, msg) {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function callValidate() {
     const fd = new FormData(form);
-    const baseUrl = form.getAttribute('action').replace('/signin', '');
+    const baseUrl = form.getAttribute('action').replace('/signIn', '');
     const res = await fetch(baseUrl + "/api/validate/signin", {
       method: "POST",
       body: fd,
@@ -72,22 +72,30 @@ document.addEventListener("DOMContentLoaded", () => {
     return res.json();
   }
 
+  function hasErrors(errors) {
+    return Object.values(errors).some((error) => error !== "");
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearFeedback();
-
     try {
       const data = await callValidate();
       applyServerResult(data);
-
-      if (data.ok) {
+      
+      if (data.ok && !hasErrors(data.errors)) {
         setStatus("success", "Validation OK ✅ Envoi en cours...");
         form.submit(); // soumission finale vers register.php (qui revalide)
       } else {
         setStatus("danger", "Veuillez corriger les erreurs.");
+        /* for(let i = 0; i < data.errors.length(); i++) {
+          var element = document.getElementById(data.errors
+        } */
       }
     } catch (err) {
       setStatus("warning", err.message || "Une erreur est survenue.");
+        //alert("Validation en cours catch  ...");
+
     }
   });
 

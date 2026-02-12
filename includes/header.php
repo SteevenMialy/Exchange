@@ -1,3 +1,5 @@
+
+
 <style>
 /* Overlay for blur */
 #overlay {
@@ -179,8 +181,8 @@ function handleAuthSubmit(event) {
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">My Account</button>
                     <div class="dropdown-menu dropdown-menu-right text-center">
-                        <a href="<?= BASE_URL ?>/disconnect" class="dropdown-item" type="button">Sign out</a>
-                        <a onclick="openAuth()" class="dropdown-item" type="button">Sign in as admin</a>
+                        <a href="<?= BASE_URL ?>/disconnect" class="dropdown-item" type="button">Log out</a>
+                        <a onclick="openAuth()" class="dropdown-item" type="button">Log in as admin</a>
                     </div>
                 </div>
                 <div class="btn-group mx-2">

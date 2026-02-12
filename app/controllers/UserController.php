@@ -13,11 +13,29 @@ class UserController
 
 	protected Engine $app;
 
+    public static function save(){
+        $user = new User();
+
+        $req = Flight::request();
+
+        $hashedPassword = password_hash($req->data->password, PASSWORD_DEFAULT);
+        $user->setUsername($req->data->username);
+        $user->setPassword($hashedPassword);
+
+        $user->insert(Flight::db());
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['user'] = $user;
+
+        Flight::redirect('/home');
+    }
+
 	public static function validateSignin()
     {
         header('Content-Type: application/json; charset=utf-8');
 		try {
-            $pdo  = Flight::db();
             $repo = new User();
 
             $req = Flight::request();
@@ -25,7 +43,7 @@ class UserController
             $input = [
                 'username' => $req->data->username ?? '',
                 'password' => $req->data->password ?? '',
-                'confirmPassword' => $req->data->confirmPassword ?? '',
+                'confirmPassword' => $req->data->passwordconfirmation ?? '',
             ];
 
             $res = Validator::validateRegister($input, $repo);

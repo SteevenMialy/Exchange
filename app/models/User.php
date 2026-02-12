@@ -7,7 +7,7 @@ use PDO;
 
 class User
 {
-    private $id;
+    public $id;
     private $username;
     private $pwd;
 
@@ -111,5 +111,15 @@ class User
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+    public function getPwd()
+    {
+        return $this->pwd;
+    }
+
+    public function setPassword($pwd)
+    {
+        $this->pwd = $pwd;
     }
 }
