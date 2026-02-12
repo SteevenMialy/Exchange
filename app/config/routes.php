@@ -2,7 +2,7 @@
 
 use app\controllers\UserController;
 use app\controllers\AdminController;
-use app\controllers\ObjectController;
+use app\controllers\ObjectController; 
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -27,26 +27,40 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('signin');
 	});
 
+	$router->get('/disconnect', function () use ($app) {
+		if (session_status() === PHP_SESSION_ACTIVE) {
+			if (ini_get("session.use_cookies")) {
+				$params = session_get_cookie_params();
+				setcookie(
+					session_name(),
+					'',
+					time() - 42000,
+					$params["path"],
+					$params["domain"],
+					$params["secure"],
+					$params["httponly"]
+				);
+			}
+
+			session_destroy();
+			Flight::redirect('/');
+		}
+	});
+
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 	Flight::route('/signIn', [UserController::class, 'save']);
 
+	$router->get('/home', function ($id) use ($app) {
+		$controller = new ObjectController($app);
+		$app->render('home', [
+			'objects' => "holla"
+		]);
+	});
 
 	$router->post('/connect/admin', function () use ($app) {
 		$controller = new AdminController($app);
 		$controller->authenticateAdmin();
-	});
 
-
-
-	$router->get('/DetailsObject/@id', function ($id) use ($app) {
-		$controller = new ObjectController($app);
-		$app->render('DetailsObject', ['object' => $controller->getObjectById($id)]);
-	});
-
-
-
-	$router->get('/home', function () use ($app) {
-		$app->render('home');
 	});
 
 	$router->get('/adminpage', function () use ($app) {
@@ -69,7 +83,4 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('contact');
 	});
 
-	$router->get('/Accueil', function () use ($app) {
-		$app->render('Accueil');
-	});
 }, [SecurityHeadersMiddleware::class]);

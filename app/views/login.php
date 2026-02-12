@@ -1,5 +1,20 @@
 <?php
-// Login View
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Get login errors from session and clear them
+$errors = $_SESSION['signin_errors'] ?? [];
+unset($_SESSION['signin_errors']);
+
+function e($v)
+{
+    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+}
+function cls_invalid($errors, $field)
+{
+    return ($errors[$field] ?? '') !== '' ? 'is-invalid' : '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +24,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/style.min.css">
-    <script defer src="<?= BASE_URL ?>/js/validation-ajax.js"></script>
+    <script defer src="<?= BASE_URL ?>/js/validation-login.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -42,31 +57,45 @@
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="<?= BASE_URL ?>/login" method="POST">
+        <?php if (!empty($errors['_global'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= e($errors['_global']) ?>
+            </div>
+        <?php endif; ?>
+        <div id="formStatus"></div>
+        <form action="<?= BASE_URL ?>/login" method="POST" id="registerForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                <input type="text" class="form-control <?= cls_invalid($errors, 'username') ?>" id="username" name="username" placeholder="Enter your username" required>
+                <div class="invalid-feedback" id="usernameError">
+                    <?= e($errors['username'] ?? '') ?>
+                </div>
             </div>
             <div class="form-group" id="passwordGroup">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                <div class="input-group">
+                    <input type="password" class="form-control <?= cls_invalid($errors, 'password') ?>" id="password" name="password" placeholder="Enter your password" required>
+                    <button type="button" id="togglePassword" class="btn btn-outline-secondary">Show</button>
+                    <div class="invalid-feedback" id="passwordError">
+                        <?= e($errors['password'] ?? '') ?>
+                    </div>
+                </div>
             </div>
             <div class="form-group form-check" id="adminCheck">
                 <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
                 <label class="form-check-label" for="isAdmin">Login as Admin</label>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
-            <p class="text-center mt-3"><a id="inscription">S'inscrire</a></p>
+            <p class="text-center mt-3"><a href="<?= BASE_URL ?>/signin" id="inscription">S'inscrire</a></p>
         </form>
     </div>
 
     <script>
-        var isadmin = document.getElementById('isAdmin');
-        var inscription = document.getElementById('inscription');
-        var adminCheck = document.getElementById('adminCheck');
-        
-        inscription.addEventListener('click', function() {
-            adminCheck
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const passwordFieldType = passwordField.getAttribute('type');
+            passwordField.setAttribute('type', passwordFieldType === 'password' ? 'text' : 'password');
+            this.textContent = passwordFieldType === 'password' ? 'Hide' : 'Show';
         });
 
         
