@@ -44,6 +44,18 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function countUser ($db) {
+        $isa = 0;
+        $sql = "SELECT COUNT(*) as user_count FROM exch_user";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $isa = (int)$result['user_count'];
+        }
+        return $isa;
+    }
+
     public static function findAll($db)
     {
         $sql = "SELECT * FROM exch_user";
