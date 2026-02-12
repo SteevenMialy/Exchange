@@ -18,7 +18,11 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('login');
 	});
 
-	Flight::route('/api/validate/login', [UserController::class, 'validateLogin']);
+	$router->get('/signin', function () use ($app) {
+		$app->render('signin');
+	});
+
+	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 
 	$router->get('/home', function ($id) use ($app) {
 		$controller = new ObjectController($app);

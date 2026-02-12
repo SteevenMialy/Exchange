@@ -61,7 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function callValidate() {
     const fd = new FormData(form);
-    const res = await fetch("/api/validate/sign", {
+    const baseUrl = form.getAttribute('action').replace('/signin', '');
+    const res = await fetch(baseUrl + "/api/validate/signin", {
       method: "POST",
       body: fd,
       headers: { "X-Requested-With": "XMLHttpRequest" },
