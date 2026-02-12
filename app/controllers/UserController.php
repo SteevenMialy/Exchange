@@ -6,11 +6,17 @@ use app\models\User;
 use Flight;
 use flight\Engine;
 
-class UserModel
+class UserController
 {
 
 	protected Engine $app;
 
+	public static function validateLogin()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+		
+	}
+	
 	public function __construct($app)
 	{
 		$this->app = $app;
