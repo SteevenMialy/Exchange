@@ -41,6 +41,10 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('AdminPage');
 	});
 
+	$router->get('/adminpage', function () use ($app) {
+		$app->render('AdminPage');
+	});
+
 	$router->get('/shop', function () use ($app) {
 		$app->render('shop');
 	});
