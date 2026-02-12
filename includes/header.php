@@ -60,6 +60,19 @@
     opacity: 0.85;
 }
 
+/* Error message shown below the password input */
+#authError {
+    display: none;
+    margin-top: 6px;
+    padding: 6px 8px;
+    border: 1px solid #e74c3c;
+    background: #fdecea;
+    color: #b00020;
+    border-radius: 4px;
+    font-size: 13px;
+    width: 100%;
+}
+
 /* Close button */
 .close-btn {
     position: absolute;
@@ -139,13 +152,18 @@ function handleAuthSubmit(event) {
 
     <h4>Enter your administrator password!</h4>
 
-    <form action="<?= BASE_URL ?>/connect/admin" id="authForm">
+    <form action="<?= BASE_URL ?>connect/admin" id="authForm" method="post">
         <div class="form-group">
-            <input type="password" class="form-control" id="password" placeholder="Mot de passe" required>
+            <input type="password" class="form-control" id="password" name="pwd" placeholder="Mot de passe" required>
+            <div id="authError" role="alert" aria-live="assertive"></div>
         </div>
-        <button type="submit">Log in</button>
+        <button id="switch" type="submit">Log in</button>
     </form>
+    
 </div>
+
+<!-- Load the switch-user-mode script for AJAX authentication -->
+<script src="<?= BASE_URL ?>js/switch-user-mode.js"></script>
 
 <div class="container-fluid">
     <div class="row bg-secondary py-1 px-xl-5">
@@ -155,6 +173,7 @@ function handleAuthSubmit(event) {
                 <a class="text-body mr-3" href="">Contact</a>
                 <a class="text-body mr-3" href="">Help</a>
                 <a class="text-body mr-3" href="">FAQs</a>
+                  <a class="text-body mr-3" href="<?= BASE_URL ?>Accueil">Vos informations</a>
             </div>
         </div>
         <div class="col-lg-6 text-center text-lg-right">

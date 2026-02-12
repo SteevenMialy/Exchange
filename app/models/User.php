@@ -7,7 +7,7 @@ use PDO;
 
 class User
 {
-    private $id;
+    public $id;
     private $username;
     private $pwd;
 

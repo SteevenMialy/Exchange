@@ -6,6 +6,10 @@ use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
 
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+
 /** 
  * @var Router $router 
  * @var Engine $app
@@ -24,7 +28,8 @@ $router->group('', function (Router $router) use ($app) {
 
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 
-	$router->get('/home', function ($id) use ($app) {
+	$router->get('/home', function () use ($app) {
+		$id = $_SESSION['user']->id ?? null;
 		$controller = new ObjectController($app);
 		$app->render('home', [
 			'objects' => ObjectController::getAllObjectUserCo($id)
@@ -50,5 +55,4 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/contact', function () use ($app) {
 		$app->render('contact');
 	});
-
 }, [SecurityHeadersMiddleware::class]);
