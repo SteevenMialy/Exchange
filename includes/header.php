@@ -1,3 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Online Shop Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="<?= BASE_URL ?>/img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome -->
+    <link href="<?= BASE_URL ?>/lib/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="<?= BASE_URL ?>/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="<?= BASE_URL ?>/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="<?= BASE_URL ?>/css/style.min.css" rel="stylesheet">
+</head>
 <style>
     /* Overlay for blur */
     #overlay {
