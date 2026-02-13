@@ -1,0 +1,1 @@
+INSERT INTO exch_user (username, pwd) VALUES ('Test User', '$2y$10$lVLhY3oAPvQ239ZZxgq5yurrJpXQ//rF7RE0ZJ9GvxWd.Fc4oOiEC');
