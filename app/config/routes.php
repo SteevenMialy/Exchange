@@ -1,11 +1,13 @@
 <?php
 
+use app\controllers\CategoryController;
 use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
 use app\controllers\DetailController;
 
 use app\middlewares\SecurityHeadersMiddleware;
+use app\models\Category;
 use flight\Engine;
 use flight\net\Router;
 
@@ -24,6 +26,30 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/', function () use ($app) {
 		$app->render('login');
 	});
+
+	$router->get('/newcategory', function () use ($app) {
+		$app->render('InsertCategory');
+	});
+
+	$router->post('/insertioncategory', function () use ($app) {
+		$controller = new CategoryController($app);
+		$controller->insertcategory();
+		Flight::redirect('/adminpage');
+	});
+
+	$router->get('/editcategory/@id', function ($id) use ($app) {
+		$controller = new CategoryController($app);
+		$app->render('modifycategory', [
+			'category' => CategoryController::find($id)
+		]);
+	});
+
+	$router->post('/modificationcategory', function () use ($app) {
+		$controller = new CategoryController($app);
+		$controller->modifycategory();
+		Flight::redirect('/adminpage');
+	});
+	
 
 	$router->get('/signin', function () use ($app) {
 		$app->render('signin');
@@ -64,7 +90,10 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/adminpage', function () use ($app) {
-		$app->render('AdminPage');
+		$controller = new CategoryController($app);
+		$app->render('AdminPage', [
+			'categories' => CategoryController::allcategory()
+		]);
 	});
 
 	$router->get('/shop', function () use ($app) {
