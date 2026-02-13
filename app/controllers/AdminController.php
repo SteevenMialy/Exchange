@@ -23,17 +23,19 @@ class AdminController
     public static function authenticateAdmin()
     {
         $pwd = Flight::request()->data->pwd;
+        $id_user= $_SESSION['user']['id'];
         $admin = new Admin();
-        $admin->setPwd($pwd);
-        if ($admin->verifiemdp($pwd)) {
+
+        if ($admin->verifiemdp($pwd,$id_user)) {
             Flight::json([
                 'success' => true,
-                'redirectUrl' => BASE_URL . 'adminpage'
+                'redirectUrl' => BASE_URL . '/AdminPage'
             ]);
+
         } else {
             Flight::json([
                 'success' => false,
-                'error' => 'Mot de passe incorrect'
+                'error' => 'Mot de passe incorrect & id_user = ' . $id_user
             ], 401);
         }
     }
