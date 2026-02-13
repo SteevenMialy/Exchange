@@ -46,19 +46,15 @@ class ExchObject
         return $objects;
     }
 
-    public function findBelongedObject($db): array
+    public function findBelongedObject($db, $id_user): array
     {
         $sql = "SELECT * FROM exch_object WHERE id_user = :id_user";
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            ':id_user' => $this->id_user
+            ':id_user' => $id_user
         ]);
 
-        $objects = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $objects[] = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
-        }
-        return $objects;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function findNotBelongedObject($db): array
@@ -76,22 +72,23 @@ class ExchObject
         return $objects;
     }
 
-    public function insert($db): int
+    public function insert($db,$data,$id_user): int
     {
         $sql = "INSERT INTO exch_object (id_user, id_category, descript, prix, obj_name) 
                 VALUES (:id_user, :id_category, :descript, :prix, :obj_name)";
 
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            ':id_user' => $this->id_user,
-            ':id_category' => $this->id_category,
-            ':descript' => $this->descript,
-            ':prix' => $this->prix,
-            ':obj_name' => $this->obj_name
+            ':id_user' => $id_user,
+            ':id_category' => $data['id_category'],
+            ':descript' => $data['descript'],
+            ':prix' => $data['prix'],
+            ':obj_name' => $data['obj_name']
         ]);
 
         $this->id = $db->lastInsertId();
         return $this->id;
+
     }
 
     public static function findById($db, $id): ?Object
@@ -203,4 +200,7 @@ class ExchObject
     {
         $this->obj_name = $obj_name;
     }
+
+   
+
 }
