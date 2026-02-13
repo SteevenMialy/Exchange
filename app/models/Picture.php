@@ -45,22 +45,24 @@ class Picture
         return $pictures;
     }
 
-    public function insert($db): int
+    public function insert($db, $id_object, array $path_imgs): int
     {
         $sql = "INSERT INTO exch_pictures (id_object, path_img) 
                 VALUES (:id_object, :path_img)";
 
         $stmt = $db->prepare($sql);
-        $stmt->execute([
-            ':id_object' => $this->id_object,
-            ':path_img' => $this->path_img
-        ]);
+        foreach ($path_imgs as $path_img) {
+            $stmt->execute([
+                ':id_object' => $id_object,
+                ':path_img'  => $path_img
+            ]);
+        }
 
         $this->id = $db->lastInsertId();
         return $this->id;
     }
 
-    public function update($db): bool
+    public function update($db,$data): bool
     {
         $sql = "UPDATE exch_pictures 
                 SET id_object = :id_object, path_img = :path_img
@@ -108,4 +110,21 @@ class Picture
     {
         $this->path_img = $path_img;
     }
+
+    public static function findByObjectId($db, $id_object): array
+    {
+        $sql = "SELECT * FROM exch_pictures WHERE id_object = :id_object";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_object' => $id_object
+        ]);
+
+        $pictures = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $pictures[] = new Picture($row['id'], $row['id_object'], $row['path_img']);
+        }
+        return $pictures;
+    }
+
+
 }
