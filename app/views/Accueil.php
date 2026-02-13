@@ -29,18 +29,29 @@
                 <div class="card shadow p-4">
 
                     <h3 class="text-center mb-4">Liste des Objets de l'utilisateur
-                        <?= isset($listob['nom_user']) ? htmlspecialchars($listob['nom_user']) : '' ?>
+                        <?= isset($_SESSION['user']->nom_user) ? htmlspecialchars($_SESSION['user']->nom_user) : '' ?>
                     </h3>
 
-                    <?php if (isset($lisob) && !empty($lisob)) { ?>
+                    <a href="<?= BASE_URL ?>/ajoutobject" class="btn btn-primary btn-block">Ajouter object</a>
+
+                    <?php if (isset($objects) && !empty($objects)) { ?>
                         <ul class="list-group">
-                            <?php foreach ($lisob as $item): ?>
-                                <li class="list-group-item d-flex align-items-center" id="det<?= $item['id_objet'] ?>">
-                                    <img src="/uploads/<?= htmlspecialchars($item["photo"]) ?>" alt="" class="img-thumbnail me-3" style="width:80px; height:80px; object-fit:cover;">
+                            <?php foreach ($objects as $item): ?>
+                                <?php if (!is_array($item) || !isset($item['id'])) continue; ?>
+                                <?php
+                                    $itemPics = $pictures[$item['id']] ?? [];
+                                    $firstPic = !empty($itemPics) ? $itemPics[0]->getPathImg() : null;
+                                ?>
+                                <li class="list-group-item d-flex align-items-center" id="det<?= $item['id'] ?>">
+                                    <?php if ($firstPic): ?>
+                                        <img src="uploads/object/<?= htmlspecialchars($firstPic) ?>" alt="" class="img-thumbnail me-3" style="width:80px; height:80px; object-fit:cover;">
+                                    <?php else: ?>
+                                        <div class="img-thumbnail me-3 d-flex align-items-center justify-content-center bg-light" style="width:80px; height:80px;">Aucune</div>
+                                    <?php endif; ?>
                                     <div class="flex-grow-1">
-                                        <?= htmlspecialchars($item['nom_objet']); ?>
+                                        <?= htmlspecialchars($item['obj_name'] ?? ''); ?>
                                     </div>
-                                    <a href="<?= BASE_URL ?>/details/<?= $item['id_objet'] ?>" class="btn btn-primary btn-sm" >Voir détails</a>
+                                    <a href="<?= BASE_URL ?>/details/<?= $item['id'] ?>" class="btn btn-primary btn-sm">Voir détails</a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -48,13 +59,12 @@
                         <p class="text-center mt-3">Vous n'avez aucun objet disponible.</p>
                     <?php } ?>
 
-
                 </div>
             </div>
         </div>
     </div>
 
-   
+
     <?php include 'includes/footer.php'; ?>
 
 </body>
