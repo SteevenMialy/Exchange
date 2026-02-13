@@ -23,7 +23,7 @@ class AdminController
     public static function authenticateAdmin()
     {
         $pwd = Flight::request()->data->pwd;
-        $id_user= $_SESSION['user']['id'];
+        $id_user= $_SESSION['user']->id;
         $admin = new Admin();
 
         if ($admin->verifiemdp($pwd,$id_user)) {
