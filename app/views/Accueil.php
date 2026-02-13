@@ -40,11 +40,10 @@
                                     <div class="flex-grow-1">
                                         <?= htmlspecialchars($item['nom_objet']); ?>
                                     </div>
-                                    <button class="btn btn-primary btn-sm" id="details<?= $item['id_objet'] ?>">Voir détails</button>
+                                    <a href="<?= BASE_URL ?>/details/<?= $item['id_objet'] ?>" class="btn btn-primary btn-sm" >Voir détails</a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-
                     <?php } else { ?>
                         <p class="text-center mt-3">Vous n'avez aucun objet disponible.</p>
                     <?php } ?>
@@ -55,43 +54,7 @@
         </div>
     </div>
 
-    <script>
-        document.querySelectorAll('[id^="details"]').forEach(button => {
-            button.addEventListener('click', function() {
-
-                const objId = this.id.replace('details', '');
-                const li = document.getElementById('det' + objId);
-
-                // Toggle du <p> si déjà présent
-                let existing = li.querySelector('p.details');
-                if (existing) {
-                    existing.remove();
-                    return;
-                }
-
-                // AJAX Fetch vers Flight PHP
-                fetch('/objet/details/' + objId)
-                    .then(response => response.json())
-                    .then(data => {
-                        const p = document.createElement('p');
-                        p.classList.add('details', 'mt-2');
-                        p.style.color = "blue";
-
-                        if (data.error) {
-                            p.textContent = data.error;
-                        } else {
-                            p.innerHTML = `
-                        <strong>Description :</strong> ${data.description}
-                    `;
-                        }
-
-                        li.appendChild(p);
-                    })
-                    .catch(err => console.error(err));
-            });
-        });
-    </script>
-
+   
     <?php include 'includes/footer.php'; ?>
 
 </body>
