@@ -115,30 +115,6 @@
         }
     }
 </style>
-<script>
-    function openAuth() {
-        document.getElementById("password").value = "";
-        document.getElementById("authentification").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-    }
-
-    function closeAuth() {
-        document.getElementById("authentification").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-    }
-
-    /* script de validation */
-    function handleAuthSubmit(event) {
-        event.preventDefault();
-        const password = document.getElementById("password").value;
-        if (password.trim() === "") {
-            alert("Please enter a password.");
-            return;
-        }
-        // Submit the form
-        document.getElementById("authForm").submit();
-    }
-</script>
 
 <!-- Blur overlay -->
 <div id="overlay"></div>
@@ -151,7 +127,7 @@
 
     <form action="<?= BASE_URL ?>/connect/admin" id="authForm" method="post">
         <div class="form-group">
-            <input type="password" class="form-control" id="password" name="pwd" placeholder="Mot de passe" required>
+            <input type="password" class="form-control" id="password" name="pwd" placeholder="Mot de passe" value="123" required>
             <div id="authError" role="alert" aria-live="assertive"></div>
         </div>
         <button id="switch" type="submit">Log in</button>
@@ -160,7 +136,6 @@
 </div>
 
 <!-- Load the switch-user-mode script for AJAX authentication -->
-<script src="<?= BASE_URL ?>/js/switch-user-mode.js"></script>
 
 <div class="container-fluid">
     <div class="row bg-secondary py-1 px-xl-5">
@@ -178,7 +153,8 @@
                     <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">My Account</button>
                     <div class="dropdown-menu dropdown-menu-right text-center">
                         <a href="<?= BASE_URL ?>/disconnect" class="dropdown-item" type="button">Log out</a>
-                        <a onclick="openAuth()" class="dropdown-item" type="button">Log in as admin</a>
+                        <a href="<?= BASE_URL ?>/disconnect" class="dropdown-item d-none" id="simpleUserlink" type="button">Log as simple user</a>
+                        <a onclick="openAuth()" class="dropdown-item" id="adminLink" type="button">Log in as admin</a>
                     </div>
                 </div>
                 <div class="btn-group mx-2">
@@ -279,7 +255,8 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="<?= BASE_URL ?>/home" class="nav-item nav-link active">Home</a>
+                        <a href="<?= BASE_URL ?>/home" class="nav-item nav-link active" id="usersimpleHome">Home</a>
+                        <a href="<?= BASE_URL ?>/Adminpage" class="nav-item nav-link active d-none" id="adminHome">Home</a>
                         <a href="<?= BASE_URL ?>/shop" class="nav-item nav-link">Shop</a>
                         <a href="<?= BASE_URL ?>/shopCart" class="nav-item nav-link">Shop Cart</a>
                         <a href="<?= BASE_URL ?>/checkout" class="nav-item nav-link">Checkout</a>
@@ -304,3 +281,5 @@
     </div>
 </div>
 <!-- Navbar End -->
+
+<script src="<?= BASE_URL ?>/js/switch-user-mode.js"></script>
