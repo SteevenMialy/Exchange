@@ -59,7 +59,7 @@ $router->group('', function (Router $router) use ($app) {
 		$id = $_SESSION['user']->id ?? null;
 		$controller = new ObjectController($app);
 		$app->render('home', [
-			'objects' => ObjectController::getAllObjectUserCo($id)
+			'objects' => ObjectController::getAllBelongedObject($id)
 		]);
 	});
 

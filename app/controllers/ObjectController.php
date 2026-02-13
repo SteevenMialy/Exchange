@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\User;
+use app\models\ExchObject;
 use Flight;
 use flight\Engine;
 
@@ -16,29 +16,25 @@ class ObjectController
 		$this->app = $app;
 	}
 
-	public static function getAllUsers()
+	public static function getAllBelongedObject()
 	{
-		$user = new User();
-		$users = $user->findAll(Flight::db());
-		return $users;
+		$obj = new ExchObject();
+		$objs = $obj->findBelongedObject(Flight::db());
+		return $objs;
 	}
 
-	public static function getUser($id)
+	public static function getAllNotBelongedObject()
 	{
-		$user = new User();
-		$user = $user->findById(Flight::db(), $id);
-		return $user;
+		$obj = new ExchObject();
+		$objs = $obj->findNotBelongedObject(Flight::db());
+		return $objs;
 	}
 
-    public static function getAllObjectUserCo ($id_user)
-    {
-        $user = new User();
-        return $user->myobject(Flight::db(), $id_user);
-    }
-
-	public static function totalUsers()
+	public static function getObject($id)
 	{
-		$user = new User();
-		return $user->countUser(Flight::db());
+		$obj = new ExchObject();
+		$objs = $obj->findById(Flight::db(), $id);
+		return $objs;
 	}
+	
 }

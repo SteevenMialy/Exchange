@@ -33,7 +33,12 @@ class User
 
         $stmt = $db->prepare($sql);
         $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = new User($row['username'], $row['id'], $row['pwd']);
+        }
+        return $users;
     }
 
     public function insert($db): int
@@ -51,7 +56,7 @@ class User
         return $this->id;
     }
 
-    public static function findById($db, $id)
+    public static function findById($db, $id): ?User
     {
         $sql = "SELECT * FROM exch_user WHERE id = :id";
         $stmt = $db->prepare($sql);
@@ -59,7 +64,11 @@ class User
             ':id' => $id
         ]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new User($row['username'], $row['id'], $row['pwd']);
+        }
+        return null;
     }
 
     public function countUser ($db) {
@@ -74,13 +83,17 @@ class User
         return $isa;
     }
 
-    public static function findAll($db)
+    public static function findAll($db): array
     {
         $sql = "SELECT * FROM exch_user";
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = new User($row['username'], $row['id'], $row['pwd']);
+        }
+        return $users;
     }
 
     public function update($db): bool
@@ -107,14 +120,6 @@ class User
         ]);
     }
 
-    public function myobject ($db, $id_user) {
-        $sql = "SELECT * FROM exch_object WHERE id_user = :id_user";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([
-            ':id_user' => $id_user
-        ]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     public function getId()
     {
