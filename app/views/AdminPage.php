@@ -1,7 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<?php include 'includes/header.php'; ?>
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Online Shop Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome -->
+    <link href="lib/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href="bootstrap/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+
+    <!-- Bootstrap -->
+
+</head>
 
 <body>
+    <?php include 'includes/header.php'; ?>
 
 
     <!-- Carousel Start -->
@@ -118,176 +144,27 @@
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span
-                class="bg-secondary pr-3">Categories <a href="#"><i class="bi bi-plus-square"></i></a></span></h2>
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
+                class="bg-secondary pr-3">Categories <a href="<?= BASE_URL ?>/newcategory"><i
+                        class="bi bi-plus-square"></i></a></span></h2>
+        <?php if (!empty($categories)) { ?>
+            <?php foreach ($categories as $val) { ?>
+                <div class="row px-xl-5 pb-3">
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <a class="text-decoration-none" href="">
+                            <div class="cat-item d-flex align-items-center mb-4">
+                                <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                                    <img class="img-fluid" src="uploads/category/<?= $val->getImg() ?>" alt="">
+                                </div>
+                                <div class="flex-fill pl-3">
+                                    <h6><?= $val->getNomCategory() ?></h6>
+                                    <small class="text-body">100 Products</small>
+                                    <p><a href="<?=BASE_URL?>/editcategory/<?=$val->getId()?>"><i class="bi bi-pencil-square"></i></a></p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-4.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                            <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                        </div>
-                        <div class="flex-fill pl-3">
-                            <h6>Category Name</h6>
-                            <small class="text-body">100 Products</small>
-                            <p><a href="#"><i class="bi bi-pencil-square"></i></a></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                <?php } ?>
+            <?php } ?>
         </div>
     </div>
     <!-- Categories End -->

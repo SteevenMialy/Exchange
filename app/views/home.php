@@ -1,6 +1,39 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Online Shop Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Font Awesome -->
+    <link href="lib/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+
+    <!-- Bootstrap -->
+
+</head>
 
 <body>
+    <?php include 'includes/header.php'; ?>
 
 
     <!-- Carousel Start -->
@@ -107,7 +140,6 @@
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                
                 <a class="text-decoration-none" href="">
                     <div class="cat-item d-flex align-items-center mb-4">
                         <div class="overflow-hidden" style="width: 100px; height: 100px;">
