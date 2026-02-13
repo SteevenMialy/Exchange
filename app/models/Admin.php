@@ -22,7 +22,7 @@ class Admin
     {
         $sql = "INSERT INTO exch_admin (id_user, pwd) 
                 VALUES (:id_user, :pwd)";
-        
+
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id_user' => $this->id_user,
@@ -103,12 +103,19 @@ class Admin
         $this->pwd = $pwd;
     }
 
-    public function verifiemdp($pwd)
+    public function verifiemdp($pwd, $id_user)
     {
-        if (password_verify($pwd, $this->pwd)) {
+        $db = Flight::db();
+        $sql = "SELECT * FROM exch_admin where id_user IN (SELECT id FROM exch_user) AND pwd=?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$pwd]);
+        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin) {
             return true;
         } else {
             return false;
         }
+
     }
 }
