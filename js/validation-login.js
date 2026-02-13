@@ -106,13 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (loginData.ok === false) {
             applyServerResult(loginData);
             setStatus("danger", loginData.errors?.password || "Nom d'utilisateur ou mot de passe incorrect.");
-          } else if (loginData.ok === true) {
-            // Login réussi, rediriger
-            window.location.href = loginData.redirect || "/home";
-          }
-        } else {
-          // Réponse non-JSON, probablement une page HTML de succès
-          window.location.href = "/home";
+          } 
         }
       } else {
         setStatus("danger", "Veuillez corriger les erreurs.");
