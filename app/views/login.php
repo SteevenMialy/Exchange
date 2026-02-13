@@ -66,7 +66,7 @@ function cls_invalid($errors, $field)
         <form action="<?= BASE_URL ?>/login" method="POST" id="registerForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control <?= cls_invalid($errors, 'username') ?>" id="username" name="username" placeholder="Enter your username" value="Akashi" required>
+                <input type="text" class="form-control <?= cls_invalid($errors, 'username') ?>" id="username" name="username" placeholder="Enter your username" required>
                 <div class="invalid-feedback" id="usernameError">
                     <?= e($errors['username'] ?? '') ?>
                 </div>
@@ -74,7 +74,7 @@ function cls_invalid($errors, $field)
             <div class="form-group" id="passwordGroup">
                 <label for="password">Password</label>
                 <div class="input-group">
-                    <input type="password" class="form-control <?= cls_invalid($errors, 'password') ?>" id="password" name="password" value="Akashi0-" placeholder="Enter your password" required>
+                    <input type="password" class="form-control <?= cls_invalid($errors, 'password') ?>" id="password" name="password" placeholder="Enter your password" required>
                     <button type="button" id="togglePassword" class="btn btn-outline-secondary">Show</button>
                     <div class="invalid-feedback" id="passwordError">
                         <?= e($errors['password'] ?? '') ?>
