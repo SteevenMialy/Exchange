@@ -91,20 +91,28 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
           body: fd,
           headers: { "X-Requested-With": "XMLHttpRequest" },
-          redirect: "manual",
         });
 
         // Si redirection (login réussi), on suit la redirection
-        if (loginRes.type === "opaqueredirect" || loginRes.redirected) {
+        if (loginRes.redirected) {
           window.location.href = loginRes.url || "/home";
           return;
         }
 
-        // Sinon, on traite la réponse JSON (login échoué)
-        const loginData = await loginRes.json();
-        if (loginData.ok === false) {
-          applyServerResult(loginData);
-          setStatus("danger", loginData.errors?.password || "Nom d'utilisateur ou mot de passe incorrect.");
+        // Vérifier si la réponse est du JSON
+        const contentType = loginRes.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const loginData = await loginRes.json();
+          if (loginData.ok === false) {
+            applyServerResult(loginData);
+            setStatus("danger", loginData.errors?.password || "Nom d'utilisateur ou mot de passe incorrect.");
+          } else if (loginData.ok === true) {
+            // Login réussi, rediriger
+            window.location.href = loginData.redirect || "/home";
+          }
+        } else {
+          // Réponse non-JSON, probablement une page HTML de succès
+          window.location.href = "/home";
         }
       } else {
         setStatus("danger", "Veuillez corriger les erreurs.");

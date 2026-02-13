@@ -21,9 +21,10 @@ class UserController
         $user->setUsername($req->data->username);
         $listUsers = $user->findUser(Flight::db());
 
+        $pwd = (String) $req->data->password;
         $retour = null;
         foreach ($listUsers as $u) {
-            if (password_verify($req->data->password, $u['pwd'])) {
+            if (password_verify($pwd, $u['pwd'])) {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
