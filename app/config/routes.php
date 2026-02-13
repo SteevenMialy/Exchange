@@ -4,6 +4,7 @@ use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
 use app\controllers\DetailController;
+use app\controllers\PictureControlleur;
 
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
@@ -89,9 +90,47 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/Accueil', function () use ($app) {
+		$objects = ObjectController::getAllBelongedObject();
+		$pictures = [];
+		foreach ($objects as $obj) {
+			if (!is_array($obj) || !isset($obj['id'])) {
+				continue;
+			}
+			$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
+		}
+		$app->render('Accueil', [
+			'objects'  => $objects,
+			'pictures' => $pictures
+		]);
+	});
+
+	$router->get('/ajoutobject', function () use ($app) {
+		$db = Flight::db();
+		$categories = \app\models\Category::findAll($db);
+		$catArray = [];
+		foreach ($categories as $cat) {
+			$catArray[] = ['id' => $cat->getId(), 'name' => $cat->getNomCategory()];
+		}
+		$app->render('ajoutobject', [
+			'categories' => $catArray
+		]);
+	});
+
+	$router->post('/ajoutobjectfonc', function () use ($app) {
+		$controller = new ObjectController($app);
+		$controller2 = new PictureControlleur($app);
+		$idobject = $controller->insertionobject();
+		$controller2->insertionpicture($idobject);
 		$app->render('Accueil');
 	});
 
-
-
+	$router->get('/details/@id', function ($id) use ($app) {
+		$controller = new ObjectController($app);
+		$object = $controller->getObject($id);
+		$pictures = PictureControlleur::getPicturesByObjectId($id);
+		$app->render('details', [
+			'object' => $object,
+			'pictures' => $pictures
+		]);
+	});
 }, [SecurityHeadersMiddleware::class]);
