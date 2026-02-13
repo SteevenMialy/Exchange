@@ -12,6 +12,7 @@ class ExchObject
     private $descript;
     private $prix;
     private $obj_name;
+    public $pictures = [];
 
     public function __construct($id = null, $id_user = null, $id_category = null, $descript = null, $prix = null, $obj_name = null)
     {
@@ -41,7 +42,9 @@ class ExchObject
 
         $objects = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $objects[] = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $objects[] = $obj;
         }
         return $objects;
     }
