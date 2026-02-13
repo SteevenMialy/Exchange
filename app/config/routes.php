@@ -2,6 +2,9 @@
 
 use app\controllers\UserController;
 use app\controllers\ObjectController;
+use app\controllers\AdminController;
+use app\controllers\DetailController;
+
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -79,4 +82,16 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/contact', function () use ($app) {
 		$app->render('contact');
 	});
+
+	$router->post('/connect/admin', function () use ($app) {
+		$controller = new AdminController($app);
+		$controller->authenticateAdmin();
+	});
+
+	$router->get('/Accueil', function () use ($app) {
+		$app->render('Accueil');
+	});
+
+
+
 }, [SecurityHeadersMiddleware::class]);
