@@ -1,6 +1,6 @@
 CREATE TABLE exch_category (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nomcategory VARCHAR(255)
+    nomcategory VARCHAR(255),
 );
 
 CREATE TABLE exch_object (

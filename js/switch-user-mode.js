@@ -32,6 +32,55 @@ function clearAuthError() {
     }
 }
 
+const admin = document.getElementById("adminLink");
+const simpleUserLink = document.getElementById("simpleUserlink");
+const homeAdmin = document.getElementById("adminHome");
+const homeSimpleUser = document.getElementById("usersimpleHome");
+
+// Appliquer l'état sauvegardé au chargement de la page
+function applyUserMode() {
+    const isAdminMode = sessionStorage.getItem("isAdminMode");
+    if (admin && simpleUserLink) {
+        if (isAdminMode === "true") {
+            admin.classList.add("d-none");
+            simpleUserLink.classList.remove("d-none");
+            homeAdmin.classList.remove("d-none");
+            homeSimpleUser.classList.add("d-none");
+        } else {
+            admin.classList.remove("d-none");
+            simpleUserLink.classList.add("d-none");
+            homeAdmin.classList.add("d-none");
+            homeSimpleUser.classList.remove("d-none");
+        }
+    }
+}
+
+// Appliquer l'état au chargement
+applyUserMode();
+
+function openAuth() {
+    //document.getElementById("password").value = "";
+    document.getElementById("authentification").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+
+function closeAuth() {
+    document.getElementById("authentification").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+/* script de validation */
+function handleAuthSubmit(event) {
+    event.preventDefault();
+    const password = document.getElementById("password").value;
+    if (password.trim() === "") {
+        alert("Please enter a password.");
+        return;
+    }
+    // Submit the form
+    document.getElementById("authForm").submit();
+}
+
 if (button) {
     button.addEventListener("click", function (event) {
         event.preventDefault(); // Prevent the default form submission
@@ -50,17 +99,26 @@ if (button) {
                 }
 
                 if (xhr.status === 200 && response && response.success) {
+                    sessionStorage.setItem("isAdminMode", "true");
+                    closeAuth();
                     window.location.href = response.redirectUrl;
-                    return;
-                }
-
-                if (response && response.error) {
+                } else if (response && response.error) {
                     showAuthError(response.error);
                 } else {
-                    showAuthError("Une erreur est survenue. Veuillez réessayer.");
+                    const errorMessage = `Une erreur est survenue. Code d'erreur: ${xhr.status}`;
+                    showAuthError(errorMessage);
                 }
             }
         };
         xhr.send(formData);
+    });
+}
+
+if (simpleUserLink) {
+    simpleUserLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        // Supprimer l'état admin du sessionStorage
+        sessionStorage.setItem("isAdminMode", "false");
+        window.location.href = simpleUserLink.href;
     });
 }
