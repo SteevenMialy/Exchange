@@ -44,7 +44,7 @@ if (empty($app) === true) {
 // You'll need to namespace your classes with "app\folder\" to include them properly
 $app->path(__DIR__ . $ds . '..' . $ds . '..');
 
-define('BASE_URL', '/Revision_S3/Exchange');
+define('BASE_URL', '/L2/GitHub/Exchange');
 
 // Core config variables
 $app->set('flight.base_url', BASE_URL);           // Base URL for your app. Change if app is in a subdirectory (e.g., '/myapp/')
