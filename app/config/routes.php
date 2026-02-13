@@ -121,6 +121,12 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('Accueil');
 	});
 
+	$router->get('/object/@id', function ($id) use ($app) {
+		$app->render('DetailsObject'/* , [
+			'object' => ObjectController::getObject($id)
+		] */);
+	});
+
 
 
 }, [SecurityHeadersMiddleware::class]);
