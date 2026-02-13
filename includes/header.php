@@ -1,146 +1,143 @@
-
-
 <style>
-/* Overlay for blur */
-#overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(6px);
-    display: none;
-    z-index: 999;
-}
+    /* Overlay for blur */
+    #overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(6px);
+        display: none;
+        z-index: 999;
+    }
 
-/* Modal */
-#authentification {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    background: white;
-    color: black;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    display: none;
-    z-index: 1000;
-    font-family: Arial, sans-serif;
-}
-
-/* Title */
-#authentification h4 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Inputs */
-#authentification input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid black;
-    border-radius: 4px;
-}
-
-/* Button */
-#authentification button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(255,202.75,12.75);
-    border-color: #ffc800;
-    color: #555555ff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#authentification button[type="submit"]:hover {
-    opacity: 0.85;
-}
-
-/* Error message shown below the password input */
-#authError {
-    display: none;
-    margin-top: 6px;
-    padding: 6px 8px;
-    border: 1px solid #e74c3c;
-    background: #fdecea;
-    color: #b00020;
-    border-radius: 4px;
-    font-size: 13px;
-    width: 100%;
-}
-
-/* Close button */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: black;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.close-btn:hover {
-    color: red;
-    transform: scale(1.1);
-}
-
-/* Responsive styles for the authentication modal */
-@media (max-width: 768px) {
+    /* Modal */
     #authentification {
-        width: 90%;
-        padding: 20px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        background: white;
+        color: black;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        display: none;
+        z-index: 1000;
+        font-family: Arial, sans-serif;
     }
 
+    /* Title */
     #authentification h4 {
-        font-size: 18px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: center;
     }
 
+    /* Inputs */
     #authentification input {
-        font-size: 14px;
-        padding: 8px;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid black;
+        border-radius: 4px;
     }
 
+    /* Button */
     #authentification button[type="submit"] {
-        font-size: 14px;
-        padding: 8px;
+        width: 100%;
+        padding: 10px;
+        background-color: rgb(255, 202.75, 12.75);
+        border-color: #ffc800;
+        color: #555555ff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
+    #authentification button[type="submit"]:hover {
+        opacity: 0.85;
+    }
+
+    /* Error message shown below the password input */
+    #authError {
+        display: none;
+        margin-top: 6px;
+        padding: 6px 8px;
+        border: 1px solid #e74c3c;
+        background: #fdecea;
+        color: #b00020;
+        border-radius: 4px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    /* Close button */
     .close-btn {
-        font-size: 16px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: black;
+        transition: color 0.2s ease, transform 0.2s ease;
     }
-}
 
+    .close-btn:hover {
+        color: red;
+        transform: scale(1.1);
+    }
+
+    /* Responsive styles for the authentication modal */
+    @media (max-width: 768px) {
+        #authentification {
+            width: 90%;
+            padding: 20px;
+        }
+
+        #authentification h4 {
+            font-size: 18px;
+        }
+
+        #authentification input {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        #authentification button[type="submit"] {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        .close-btn {
+            font-size: 16px;
+        }
+    }
 </style>
 <script>
-function openAuth() {
-    document.getElementById("password").value = "";
-    document.getElementById("authentification").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-}
-
-function closeAuth() {
-    document.getElementById("authentification").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-}
-
-/* script de validation */
-function handleAuthSubmit(event) {
-    event.preventDefault();
-    const password = document.getElementById("password").value;
-    if (password.trim() === "") {
-        alert("Please enter a password.");
-        return;
+    function openAuth() {
+        document.getElementById("password").value = "";
+        document.getElementById("authentification").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
     }
-    // Submit the form
-    document.getElementById("authForm").submit();
-}
+
+    function closeAuth() {
+        document.getElementById("authentification").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    /* script de validation */
+    function handleAuthSubmit(event) {
+        event.preventDefault();
+        const password = document.getElementById("password").value;
+        if (password.trim() === "") {
+            alert("Please enter a password.");
+            return;
+        }
+        // Submit the form
+        document.getElementById("authForm").submit();
+    }
 </script>
 
 <!-- Blur overlay -->
@@ -152,18 +149,18 @@ function handleAuthSubmit(event) {
 
     <h4>Enter your administrator password!</h4>
 
-    <form action="<?= BASE_URL ?>connect/admin" id="authForm" method="post">
+    <form action="<?= BASE_URL ?>/connect/admin" id="authForm" method="post">
         <div class="form-group">
             <input type="password" class="form-control" id="password" name="pwd" placeholder="Mot de passe" required>
             <div id="authError" role="alert" aria-live="assertive"></div>
         </div>
         <button id="switch" type="submit">Log in</button>
     </form>
-    
+
 </div>
 
 <!-- Load the switch-user-mode script for AJAX authentication -->
-<script src="<?= BASE_URL ?>js/switch-user-mode.js"></script>
+<script src="<?= BASE_URL ?>/js/switch-user-mode.js"></script>
 
 <div class="container-fluid">
     <div class="row bg-secondary py-1 px-xl-5">
@@ -173,7 +170,6 @@ function handleAuthSubmit(event) {
                 <a class="text-body mr-3" href="">Contact</a>
                 <a class="text-body mr-3" href="">Help</a>
                 <a class="text-body mr-3" href="">FAQs</a>
-                  <a class="text-body mr-3" href="<?= BASE_URL ?>Accueil">Vos informations</a>
             </div>
         </div>
         <div class="col-lg-6 text-center text-lg-right">
@@ -288,6 +284,9 @@ function handleAuthSubmit(event) {
                         <a href="<?= BASE_URL ?>/shopCart" class="nav-item nav-link">Shop Cart</a>
                         <a href="<?= BASE_URL ?>/checkout" class="nav-item nav-link">Checkout</a>
                         <a href="<?= BASE_URL ?>/contact" class="nav-item nav-link">Contact</a>
+                        <a href="<?= BASE_URL ?>/Accueil" class="nav-item nav-link">My Objects</a>
+
+
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a href="" class="btn px-0">
@@ -305,4 +304,3 @@ function handleAuthSubmit(event) {
     </div>
 </div>
 <!-- Navbar End -->
-
