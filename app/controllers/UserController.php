@@ -24,7 +24,7 @@ class UserController
         $pwd = (String) $req->data->password;
         $retour = null;
         foreach ($listUsers as $u) {
-            if (password_verify($pwd, $u['pwd'])) {
+            if (password_verify($pwd, $u->getPwd())) {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
