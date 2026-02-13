@@ -535,10 +535,6 @@
     </div>
     <!-- Products End -->
 
-    <?php if (isset($Object)) { ?>
-
-        <a href="<?= BASE_URL ?>DetailsObject/<?= $Object["id"] ?>" type="button">Details</a>
-    <?php } ?>
 
     <!-- Offer Start -->
     <div class="container-fluid pt-5 pb-3">
@@ -837,7 +833,7 @@
     <!-- Vendor End -->
 
     <?php include 'includes/footer.php'; ?>
-
+    
 </body>
 
 </html>

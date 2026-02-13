@@ -1,8 +1,7 @@
 <?php
 
 use app\controllers\UserController;
-use app\controllers\AdminController;
-use app\controllers\ObjectController; 
+use app\controllers\ObjectController;
 use app\middlewares\SecurityHeadersMiddleware;
 use flight\Engine;
 use flight\net\Router;
@@ -50,17 +49,15 @@ $router->group('', function (Router $router) use ($app) {
 	Flight::route('/api/validate/signin', [UserController::class, 'validateSignin']);
 	Flight::route('/signIn', [UserController::class, 'save']);
 
-	$router->get('/home', function ($id) use ($app) {
+	Flight::route('/api/validate/login', [UserController::class, 'validateLogin']);
+	Flight::route('/login', [UserController::class, 'check']);
+
+	$router->get('/home', function () use ($app) {
+		$id = $_SESSION['user']->id ?? null;
 		$controller = new ObjectController($app);
 		$app->render('home', [
-			'objects' => "holla"
+			'objects' => ObjectController::getAllObjectUserCo($id)
 		]);
-	});
-
-	$router->post('/connect/admin', function () use ($app) {
-		$controller = new AdminController($app);
-		$controller->authenticateAdmin();
-
 	});
 
 	$router->get('/adminpage', function () use ($app) {
@@ -82,5 +79,4 @@ $router->group('', function (Router $router) use ($app) {
 	$router->get('/contact', function () use ($app) {
 		$app->render('contact');
 	});
-
 }, [SecurityHeadersMiddleware::class]);

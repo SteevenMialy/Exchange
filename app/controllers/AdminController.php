@@ -22,24 +22,13 @@ class AdminController
 
     public static function authenticateAdmin()
     {
-        session_start();
-
-        $pwd = Flight::request()->data->pwd ?? Flight::request()->data['pwd'] ?? $_POST['pwd'] ?? null;
-        $id_user = $_SESSION["user"]->id;
-        
-        if (empty($pwd)) {
-            Flight::json([
-                'success' => false,
-                'error' => 'Mot de passe manquant'
-            ], 400);
-            return;
-        }
-        
+        $pwd = Flight::request()->data->pwd;
         $admin = new Admin();
-        if ($admin->verifiemdp($pwd, $id_user, Flight::db())) { 
+        $admin->setPwd($pwd);
+        if ($admin->verifiemdp($pwd)) {
             Flight::json([
                 'success' => true,
-                'redirectUrl' => BASE_URL . 'AdminPage'
+                'redirectUrl' => BASE_URL . 'adminpage'
             ]);
         } else {
             Flight::json([
@@ -47,9 +36,6 @@ class AdminController
                 'error' => 'Mot de passe incorrect'
             ], 401);
         }
-
     }
-
-
     
 }

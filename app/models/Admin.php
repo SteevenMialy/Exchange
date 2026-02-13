@@ -22,7 +22,7 @@ class Admin
     {
         $sql = "INSERT INTO exch_admin (id_user, pwd) 
                 VALUES (:id_user, :pwd)";
-
+        
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id_user' => $this->id_user,
@@ -103,19 +103,12 @@ class Admin
         $this->pwd = $pwd;
     }
 
-    public function verifiemdp($pwd, $id_user, $db)
+    public function verifiemdp($pwd)
     {
-       
-        $stmp = $db->prepare("SELECT * FROM exch_admin WHERE id_user = ? AND pwd = ?");
-        $stmp->execute([$id_user, $pwd]);
-        
-        error_log("Row count: " . $stmp->rowCount());
-        
-        if ($stmp->rowCount() === 0) {
+        if (password_verify($pwd, $this->pwd)) {
+            return true;
+        } else {
             return false;
         }
-        
-        return true;
     }
-
 }
