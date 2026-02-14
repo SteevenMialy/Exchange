@@ -5,6 +5,7 @@ use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
 use app\controllers\DetailController;
+use app\controllers\PictureControlleur;
 
 use app\middlewares\SecurityHeadersMiddleware;
 use app\models\Category;
@@ -49,7 +50,7 @@ $router->group('', function (Router $router) use ($app) {
 		$controller->modifycategory();
 		Flight::redirect('/adminpage');
 	});
-	
+
 
 	$router->get('/signin', function () use ($app) {
 		$app->render('signin');
@@ -118,15 +119,67 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/Accueil', function () use ($app) {
-		$app->render('Accueil');
+		$objects = ObjectController::getAllBelongedObject();
+		$pictures = [];
+		foreach ($objects as $obj) {
+			if (!is_array($obj) || !isset($obj['id'])) {
+				continue;
+			}
+			$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
+		}
+		$app->render('Accueil', [
+			'objects'  => $objects,
+			'pictures' => $pictures
+		]);
 	});
 
-	$router->get('/object/@id', function ($id) use ($app) {
-		$app->render('DetailsObject'/* , [
-			'object' => ObjectController::getObject($id)
-		] */);
+	$router->get('/ajoutobject', function () use ($app) {
+		$db = Flight::db();
+		$categories = new CategoryController($app);
+		$catArray = [];
+		$catArray=$categories->allcategory() ;
+		$app->render('ajoutobject', [
+			'categories' => $catArray
+		]);
+	});
+
+	$router->post('/ajoutobjectfonc', function () use ($app) {
+		$controller = new ObjectController($app);
+		$idobject = $controller->insertionobject();
+
+		if (!empty($idobject)) {
+			// Insérer les images associées à l'objet
+			PictureControlleur::insertionpicture($idobject);
+
+			$objects = ObjectController::getAllBelongedObject();
+			$pictures = [];
+			foreach ($objects as $obj) {
+				if (!is_array($obj) || !isset($obj['id'])) {
+					continue;
+				}
+				$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
+			}
+			$app->render('Accueil', [
+				'objects'  => $objects,
+				'pictures' => $pictures
+			]);
+		} else {
+			$app->render('ajoutobject', [
+				'categories' => CategoryController::allcategory()
+			]);
+		}
+		
 	});
 
 
 
+	$router->get('/details/@id', function ($id) use ($app) {
+		$controller = new ObjectController($app);
+		$object = $controller->getObject($id);
+		$pictures = PictureControlleur::getPicturesByObjectId($id);
+		$app->render('details', [
+			'object' => $object,
+			'pictures' => $pictures
+		]);
+	});
 }, [SecurityHeadersMiddleware::class]);

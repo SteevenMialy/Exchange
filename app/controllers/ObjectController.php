@@ -19,7 +19,7 @@ class ObjectController
 	public static function getAllBelongedObject()
 	{
 		$obj = new ExchObject();
-		$objs = $obj->findBelongedObject(Flight::db());
+		$objs = $obj->findBelongedObject(Flight::db(),$_SESSION['user']->id);
 		return $objs;
 	}
 
@@ -35,6 +35,17 @@ class ObjectController
 		$obj = new ExchObject();
 		$objs = $obj->findById(Flight::db(), $id);
 		return $objs;
+	}
+
+	public static function insertionobject(){
+
+		$request = Flight::request();
+		$db = Flight::db();
+		$data=$request->data->getData();
+		$object = new ExchObject();
+		$id_user= $_SESSION['user']->id;
+		$object->insert($db, $data, $id_user);
+		return $object->getId();
 	}
 	
 }
