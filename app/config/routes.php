@@ -4,7 +4,7 @@ use app\controllers\CategoryController;
 use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
-use app\controllers\PictureController;
+use app\controllers\PIctureController;
 
 use app\middlewares\SecurityHeadersMiddleware;
 use app\models\Category;
@@ -94,7 +94,7 @@ $router->group('', function (Router $router) use ($app) {
 		$objects = ObjectController::getAllNotBelongedObject($id);
 		$pictures = [];
 		foreach ($objects as $obj) {
-			$pictures[$obj->id] = PictureControlleur::getPicturesByObjectId($obj->id);
+			$pictures[$obj->id] = PIctureController::getPictureObject($obj->id);
 		}
 		$app->render('home', [
 			'objects' => $objects,
@@ -155,7 +155,7 @@ $router->group('', function (Router $router) use ($app) {
 
 		if (!empty($idobject)) {
 			// Insérer les images associées à l'objet
-			PictureController::insertionpicture($idobject);
+			PIctureController::insertionpicture($idobject);
 
 			$objects = ObjectController::getAllBelongedObject();
 			$app->render('Accueil', [
@@ -172,6 +172,48 @@ $router->group('', function (Router $router) use ($app) {
 		$object = ObjectController::getObject($id);
 		$app->render('DetailsObject', [
 			'object' => $object
+		]);
+	});
+
+	$router->get('/exchange/@id', function ($id) use ($app) {
+		$object = ObjectController::getObject($id);
+		$objectsNotBelonged = ObjectController::getAllNotBelongedObject();
+		$app->render('Exchange', [
+			'object' => $object,
+			'objectsNotBelonged' => $objectsNotBelonged
+		]);
+	});
+
+	$router->get('/exchange/chossen/@id', function ($id) {
+		$object = ObjectController::getObject($id);
+		Flight::json([
+			"id" => $object->id,
+			"obj_name" => $object->getObjName(),
+			"prix" => $object->getPrix(),
+			"image" => $object->pictures[0]->getPathImg() ?? null
+		]);
+	});
+
+	$router->get('/api/object/@id', function ($id) {
+		$object = ObjectController::getObject($id);
+		if (!$object) {
+			Flight::json(null);
+			return;
+		}
+
+		$pictures = [];
+		foreach (($object->pictures ?? []) as $picture) {
+			$pictures[] = $picture->getPathImg();
+		}
+
+		Flight::json([
+			"id" => $object->id,
+			"obj_name" => $object->getObjName(),
+			"prix" => $object->getPrix(),
+			"descript" => $object->getDescript(),
+			"category" => $object->getCategoryName(),
+			"owner" => $object->getUserName(),
+			"pictures" => $pictures
 		]);
 	});
 }, [SecurityHeadersMiddleware::class]);
