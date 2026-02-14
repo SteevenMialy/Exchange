@@ -147,25 +147,26 @@
                 class="bg-secondary pr-3">Categories <a href="<?= BASE_URL ?>/newcategory"><i
                         class="bi bi-plus-square"></i></a></span></h2>
         <?php if (!empty($categories)) { ?>
+            <div class="row px-xl-5 pb-3">
             <?php foreach ($categories as $val) { ?>
-                <div class="row px-xl-5 pb-3">
-                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="">
-                            <div class="cat-item d-flex align-items-center mb-4">
-                                <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                    <img class="img-fluid" src="uploads/category/<?= $val->getImg() ?>" alt="">
-                                </div>
-                                <div class="flex-fill pl-3">
-                                    <h6><?= $val->getNomCategory() ?></h6>
-                                    <small class="text-body">100 Products</small>
-                                    <p><a href="<?=BASE_URL?>/editcategory/<?=$val->getId()?>"><i class="bi bi-pencil-square"></i></a></p>
-                                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <a class="text-decoration-none" href="">
+                        <div class="cat-item d-flex align-items-center mb-4">
+                            <?php $pic = $val->getImg() ?? "default.webp"; ?>
+                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                                <img class="img-fluid" src="uploads/category/<?= $pic ?>" alt="">
                             </div>
-                        </a>
-                    </div>
-                <?php } ?>
-            <?php } ?>
-        </div>
+                            <div class="flex-fill pl-3">
+                                <h6><?= $val->getNomCategory() ?></h6>
+                                <small class="text-body">100 Products</small>
+                                <p><a href="<?=BASE_URL?>/editcategory/<?=$val->getId()?>"><i class="bi bi-pencil-square"></i></a></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+             <?php } ?>
+            </div>
+        <?php } ?>
     </div>
     <!-- Categories End -->
 

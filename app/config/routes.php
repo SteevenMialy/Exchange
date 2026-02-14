@@ -91,16 +91,11 @@ $router->group('', function (Router $router) use ($app) {
 		foreach ($catArray as $category) {
 			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
 		}
-		$objects = ObjectController::getAllNotBelongedObject($id);
-		$pictures = [];
-		foreach ($objects as $obj) {
-			$pictures[$obj->id] = PIctureController::getPictureObject($obj->id);
-		}
+		$objects = ObjectController::getAllNotBelongedObject();
 		$app->render('home', [
 			'objects' => $objects,
 			'categories' => $catArray,
-			'counts' => $count,
-			'pictures' => $pictures
+			'counts' => $count
 		]);
 	});
 

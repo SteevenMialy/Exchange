@@ -262,8 +262,8 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="<?= BASE_URL ?>/home" class="nav-item nav-link active" id="usersimpleHome">Home</a>
                         <a href="<?= BASE_URL ?>/Adminpage" class="nav-item nav-link active d-none" id="adminHome">Home</a>
-                        <a href="<?= BASE_URL ?>/shop" class="nav-item nav-link">Shop</a>
-                        <a href="<?= BASE_URL ?>/shopCart" class="nav-item nav-link">Shop Cart</a>
+                        <a href="<?= BASE_URL ?>/shop" class="nav-item nav-link">Exchange</a>
+                        <a href="<?= BASE_URL ?>/shopCart" class="nav-item nav-link">History</a>
                         <a href="<?= BASE_URL ?>/checkout" class="nav-item nav-link">Checkout</a>
                         <a href="<?= BASE_URL ?>/contact" class="nav-item nav-link">Contact</a>
                         <a href="<?= BASE_URL ?>/Accueil" class="nav-item nav-link">My Objects</a>

@@ -13,23 +13,25 @@
                 <div class="col-md-4 mb-5">
                     <h5 class="text-secondary text-uppercase mb-4">Quick Shop</h5>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                        <a href="<?= BASE_URL ?>/home" class="text-secondary mb-2 active" id="usersimpleHome"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                        <a href="<?= BASE_URL ?>/Adminpage" class="text-secondary mb-2 active d-none" id="adminHome"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                        <a href="<?= BASE_URL ?>/shop" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Exchange</a>
+                        <a href="<?= BASE_URL ?>/shopCart" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>History</a>
+                        <a href="<?= BASE_URL ?>/checkout" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                        <a href="<?= BASE_URL ?>/contact" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Contact</a>
+                        <a href="<?= BASE_URL ?>/Accueil" class="text-secondary"><i class="fa fa-angle-right mr-2"></i>My Objects</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
                     <h5 class="text-secondary text-uppercase mb-4">My Account</h5>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                        <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                        <a href="<?= BASE_URL ?>/home" class="text-secondary mb-2" id="usersimpleHome"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                        <a href="<?= BASE_URL ?>/Adminpage" class="text-secondary mb-2 d-none" id="adminHome"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                        <a href="<?= BASE_URL ?>/shop" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Exchange</a>
+                        <a href="<?= BASE_URL ?>/shopCart" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>History</a>
+                        <a href="<?= BASE_URL ?>/checkout" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                        <a href="<?= BASE_URL ?>/contact" class="text-secondary mb-2"><i class="fa fa-angle-right mr-2"></i>Contact</a>
+                        <a href="<?= BASE_URL ?>/Accueil" class="text-secondary"><i class="fa fa-angle-right mr-2"></i>My Objects</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
