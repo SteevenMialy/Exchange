@@ -50,7 +50,7 @@ $router->group('', function (Router $router) use ($app) {
 		$controller->modifycategory();
 		Flight::redirect('/adminpage');
 	});
-	
+
 
 	$router->get('/signin', function () use ($app) {
 		$app->render('signin');
@@ -135,11 +135,9 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/ajoutobject', function () use ($app) {
 		$db = Flight::db();
-		$categories = \app\models\Category::findAll($db);
+		$categories = new CategoryController($app);
 		$catArray = [];
-		foreach ($categories as $cat) {
-			$catArray[] = ['id' => $cat->getId(), 'name' => $cat->getNomCategory()];
-		}
+		$catArray=$categories->allcategory() ;
 		$app->render('ajoutobject', [
 			'categories' => $catArray
 		]);
@@ -147,12 +145,41 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->post('/ajoutobjectfonc', function () use ($app) {
 		$controller = new ObjectController($app);
-		$controller2 = new PictureControlleur($app);
 		$idobject = $controller->insertionobject();
-		$controller2->insertionpicture($idobject);
-		$app->render('Accueil');
+
+		if (!empty($idobject)) {
+			// Insérer les images associées à l'objet
+			PictureControlleur::insertionpicture($idobject);
+
+			$objects = ObjectController::getAllBelongedObject();
+			$pictures = [];
+			foreach ($objects as $obj) {
+				if (!is_array($obj) || !isset($obj['id'])) {
+					continue;
+				}
+				$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
+			}
+			$app->render('Accueil', [
+				'objects'  => $objects,
+				'pictures' => $pictures
+			]);
+		} else {
+			$app->render('ajoutobject', [
+				'categories' => CategoryController::allcategory()
+			]);
+		}
+		
 	});
 
 
 
+	$router->get('/details/@id', function ($id) use ($app) {
+		$controller = new ObjectController($app);
+		$object = $controller->getObject($id);
+		$pictures = PictureControlleur::getPicturesByObjectId($id);
+		$app->render('details', [
+			'object' => $object,
+			'pictures' => $pictures
+		]);
+	});
 }, [SecurityHeadersMiddleware::class]);
