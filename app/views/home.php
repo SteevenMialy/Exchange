@@ -190,7 +190,7 @@
                                     <a class="h6 text-decoration-none text-truncate" href="/details/<?php echo $obj->id; ?>"><?php echo htmlspecialchars($obj->id); ?></a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
                                         <h5><?php echo htmlspecialchars($obj->getPrix()); ?>€</h5>
-                                        <h6 class="text-muted ml-2"><del>4 000 000€€</del></h6>
+                                        <h6 class="text-muted ml-2"><del>4 000 000€</del></h6>
                                     </div>
 
                                     <div class="d-flex align-items-center justify-content-center mb-1">
