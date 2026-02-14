@@ -267,7 +267,7 @@
                         <a href="<?= BASE_URL ?>/checkout" class="nav-item nav-link">Checkout</a>
                         <a href="<?= BASE_URL ?>/contact" class="nav-item nav-link">Contact</a>
                         <a href="<?= BASE_URL ?>/Accueil" class="nav-item nav-link">My Objects</a>
-
+                        <a href="<?= BASE_URL ?>/appartenance" class="nav-item nav-link">Appartenace</a>
 
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
