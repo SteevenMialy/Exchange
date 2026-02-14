@@ -50,19 +50,7 @@
                             <span class="visually-hidden"></span>
                         </button>
                     </div>
-                    
-                    <!-- Indicateurs personnalisés -->
-                    <div class="d-flex justify-content-center mt-3 gap-2">
-                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" 
-                                class="carousel-indicator-custom active" aria-current="true" aria-label="Slide 1">
-                        </button>
-                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" 
-                                class="carousel-indicator-custom" aria-label="Slide 2">
-                        </button>
-                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" 
-                                class="carousel-indicator-custom" aria-label="Slide 3">
-                        </button>
-                    </div>
+                
                 </div>
                 
                 <style>
@@ -93,7 +81,6 @@
                     .carousel-nav-img {
                         width: 50px;
                         height: 50px;
-                        opacity: 0.8;
                         transition: all 0.3s ease;
                     }
                     
