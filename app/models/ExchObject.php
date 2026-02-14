@@ -70,12 +70,12 @@ class ExchObject
         return $objects;
     }
 
-    public function findNotBelongedObject($db): array
+    public function findNotBelongedObject($db,$id_user): array
     {
         $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user";
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            ':id_user' => $this->id_user
+            ':id_user' => $id_user
         ]);
 
         $objects = [];

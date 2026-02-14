@@ -67,11 +67,14 @@ class CategoryController
         }
     }
 
+    public static function countObjectsInCategory($id_cat)
+    {
+        $cat = new Category();
+        return $cat->countObjects(Flight::db(), $id_cat);
+    }
 
     public static function find($id)
     {
         return Category::findById(Flight::db(), $id);
     }
-
-
 }

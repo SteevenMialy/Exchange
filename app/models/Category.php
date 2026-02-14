@@ -99,7 +99,13 @@ class Category
     }
 
 
-
+public function countObjects($db,$id_cat): int
+    {
+        $sql = "SELECT COUNT(*) FROM exch_object WHERE id_category = :id_category";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([':id_category' => $id_cat]);
+        return (int)$stmt->fetchColumn();
+    }
 
     public function update($db): bool
     {

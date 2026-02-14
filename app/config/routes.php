@@ -83,9 +83,24 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/home', function () use ($app) {
 		$id = $_SESSION['user']->id ?? null;
-		$controller = new ObjectController($app);
+		//$controller = new ObjectController($app);
+		$categories = new CategoryController($app);
+		$catArray = [];
+		$catArray = $categories->allcategory();
+		$count = [];
+		foreach ($catArray as $category) {
+			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
+		}
+		$objects = ObjectController::getAllNotBelongedObject($id);
+		$pictures = [];
+		foreach ($objects as $obj) {
+			$pictures[$obj->id] = PictureControlleur::getPicturesByObjectId($obj->id);
+		}
 		$app->render('home', [
-			'objects' => ObjectController::getAllBelongedObject($id)
+			'objects' => $objects,
+			'categories' => $catArray,
+			'counts' => $count,
+			'pictures' => $pictures
 		]);
 	});
 
@@ -128,7 +143,7 @@ $router->group('', function (Router $router) use ($app) {
 		$db = Flight::db();
 		$categories = new CategoryController($app);
 		$catArray = [];
-		$catArray=$categories->allcategory() ;
+		$catArray = $categories->allcategory();
 		$app->render('ajoutobject', [
 			'categories' => $catArray
 		]);
@@ -151,7 +166,6 @@ $router->group('', function (Router $router) use ($app) {
 				'categories' => CategoryController::allcategory()
 			]);
 		}
-		
 	});
 
 	$router->get('/object/@id', function ($id) use ($app) {
