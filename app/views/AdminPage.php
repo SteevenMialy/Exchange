@@ -140,6 +140,31 @@
     </div>
     <!-- Featured End -->
 
+    <?php if (isset($countUser) && $countUser > 0) { ?>
+        <div class="container-fluid pt-5">
+            <div class="row px-xl-5 pb-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                        <h1 class="fa fa-users text-primary m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0">Nombre d'utilisateurs : <?= $countUser ?></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+     <?php if (isset($echange)) { ?>
+        <div class="container-fluid pt-5">
+            <div class="row px-xl-5 pb-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
+                        <h1 class="fa fa-users text-primary m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0">Nombre d'exchange : <?= $echange ?></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">

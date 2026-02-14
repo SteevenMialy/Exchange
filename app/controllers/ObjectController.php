@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ExchObject;
+use app\models\Category;
 use Flight;
 use flight\Engine;
 
@@ -52,6 +53,15 @@ class ObjectController
 		$id_user= $_SESSION['user']->id;
 		$object->insert($db, $data, $id_user);
 		return $object->getId();
+	}
+
+	public static function search()
+	{
+		$request = Flight::request();
+		$searchTerm = $request->query['searchTerm'] ?? null;
+		$category = $request->query['category'] ?? null;
+		$obj = new ExchObject();
+		return $obj->search(Flight::db(), $searchTerm, $category, $_SESSION['user']->id);
 	}
 	
 }

@@ -101,6 +101,25 @@
     </div>
     <!-- Featured End -->
 
+    <div class="col-lg-4 col-6 text-left">
+        <form action="<?= BASE_URL ?>/search" method="get">
+            <div class="input-group">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search for products">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-transparent text-primary">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+                <select name="category" id="categorySelect">
+                    <option value="0">All Categories</option>
+                    <?php foreach ($categories as $cat) { ?>
+                        <option value="<?= $cat->getId() ?>"><?= $cat->getNomCategory() ?></option>
+                    <?php } ?>
+                </select>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
@@ -109,7 +128,7 @@
             <div class="row px-xl-5 pb-3">
                 <?php foreach ($categories as $val) { ?>
                     <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="">
+                        <a class="text-decoration-none" href="<?= BASE_URL ?>/category/<?= $val->getId() ?>">
                             <div class="cat-item d-flex align-items-center mb-4">
                                 <?php $pic = $val->getImg() ?? "default.webp"; ?>
                                 <div class="overflow-hidden" style="width: 100px; height: 100px;">

@@ -28,6 +28,26 @@ $router->group('', function (Router $router) use ($app) {
 		$app->render('login');
 	});
 
+	$router->get('/search', function () use ($app) {
+		//$controller = new ObjectController($app);
+
+		$categories = new CategoryController($app);
+		$catArray = [];
+		$catArray = $categories->allcategory();
+		$count = [];
+		foreach ($catArray as $category) {
+			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
+		}
+
+		$objects = ObjectController::search();
+		$app->render('home', [
+			'objects' => $objects,
+			'categories' => $catArray,
+			'counts' => $count
+		]);
+	});
+
+
 	$router->get('/newcategory', function () use ($app) {
 		$app->render('InsertCategory');
 	});
@@ -107,9 +127,12 @@ $router->group('', function (Router $router) use ($app) {
 		foreach ($catArray as $category) {
 			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
 		}
+		$alluser=UserController::getAllUsers();
+		$countUser=$alluser ? count($alluser) : 0;
 		$app->render('AdminPage', [
 			'categories' => $catArray,
-			'counts' => $count
+			'counts' => $count,
+			'countUser' => $countUser
 		]);
 	});
 

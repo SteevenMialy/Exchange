@@ -18,7 +18,7 @@
         <div class="row px-xl-5">
             <!-- Left: user's object + chosen object -->
             <div class="col-lg-5 mb-30">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Votre objet</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">objet à échanger</span></h5>
                 <div class="bg-light p-4">
                     <form action="<?= BASE_URL ?>/propose" method="post" id="exchangeForm">
                         <?php if (isset($object) && !empty($object)) { ?>
@@ -52,7 +52,7 @@
                     </form>
                 </div>
 
-                <h5 class="section-title position-relative text-uppercase mb-3 mt-4"><span class="bg-secondary pr-3">Objet à échanger</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3 mt-4"><span class="bg-secondary pr-3">Objet d'echange</span></h5>
                 <div class="bg-light p-4 mb-30" id="objectChosenContainer">
                     <p class="text-center mb-0">Pas d'objet choisi</p>
                 </div>
@@ -60,7 +60,7 @@
 
             <!-- Right: scrollable list -->
             <div class="col-lg-7">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Objets disponibles</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Liste des objets</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <?php if (isset($objectsNotBelonged) && !empty($objectsNotBelonged)) { ?>
                         <div class="overflow-auto" style="max-height: 560px;">
