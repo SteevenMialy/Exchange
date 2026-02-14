@@ -91,6 +91,15 @@ class ExchObject
 
     }
 
+    public static function lastinsert($db): ?ExchObject
+    {
+         $id = $db->lastInsertId();
+            if ($id) {
+                return $id;
+            }
+        return null;
+    }
+
     public static function findById($db, $id): ?Object
     {
         $sql = "SELECT * FROM exch_object WHERE id = :id";
