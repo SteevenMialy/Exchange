@@ -53,6 +53,18 @@ class ExchObject
         return $objects;
     }
 
+    public function verification($db, $id_user, $id_object): bool
+    {
+        $sql = "SELECT 1 FROM exch_object WHERE id_user = :id_user AND id = :id_object LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user,
+            ':id_object' => $id_object,
+        ]);
+
+        return (bool) $stmt->fetchColumn();
+    }
+
     public function findBelongedObject($db, $id_user): array
     {
         $sql = "SELECT * FROM v_exch_object_details WHERE id_user = :id_user";

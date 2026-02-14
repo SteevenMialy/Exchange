@@ -181,20 +181,31 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/exchange/@id', function ($id) use ($app) {
 		$object = ObjectController::getObject($id);
-		$objectsNotBelonged = ObjectController::getAllNotBelongedObject();
+		$userId = $_SESSION['user']->id ?? null;
+		$verification = $userId ? ObjectController::verification($id, $userId) : false;
+		$objectsList = $verification
+			? ObjectController::getAllNotBelongedObject()
+			: ObjectController::getAllBelongedObject();
 		$app->render('Exchange', [
 			'object' => $object,
-			'objectsNotBelonged' => $objectsNotBelonged
+			'objectsNotBelonged' => $objectsList
 		]);
 	});
 
+
+
 	$router->get('/exchange/chossen/@id', function ($id) {
 		$object = ObjectController::getObject($id);
+		if (!$object) {
+			Flight::json(null);
+			return;
+		}
+		$firstPicture = $object->pictures[0] ?? null;
 		Flight::json([
 			"id" => $object->id,
 			"obj_name" => $object->getObjName(),
 			"prix" => $object->getPrix(),
-			"image" => $object->pictures[0]->getPathImg() ?? null
+			"image" => $firstPicture ? $firstPicture->getPathImg() : null
 		]);
 	});
 
