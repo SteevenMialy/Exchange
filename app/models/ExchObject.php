@@ -60,12 +60,12 @@ class ExchObject
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findNotBelongedObject($db): array
+    public function findNotBelongedObject($db,$id_user): array
     {
         $sql = "SELECT * FROM exch_object WHERE id_user != :id_user";
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            ':id_user' => $this->id_user
+            ':id_user' => $id_user
         ]);
 
         $objects = [];
