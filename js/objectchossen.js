@@ -46,9 +46,9 @@ document.querySelectorAll(".choosen-btn").forEach(btn => {
                     let diff = prixObjet - chosenPrice;
 
                     if (diff > 0) {
-                        resultSpan.innerHTML = ` <span class="text-success">Bénéfice : ${diff}</span>`;
+                        resultSpan.innerHTML = ` <span class="text-danger">Perte : ${diff}€</span>`;
                     } else if (diff < 0) {
-                        resultSpan.innerHTML = ` <span class="text-danger">Perte : ${diff}</span>`;
+                        resultSpan.innerHTML = ` <span class="text-success">Bénéfice : ${-1*diff}€</span>`;
                     } else {
                         resultSpan.innerHTML = ` <span class="text-secondary">Égalité</span>`;
                     }

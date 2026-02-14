@@ -158,7 +158,7 @@
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6><?= $val->getNomCategory() ?></h6>
-                                <small class="text-body">100 Products</small>
+                                <small class="text-body"><?= $counts[$val->getId()] ?? 0 ?> objets</small>
                                 <p><a href="<?=BASE_URL?>/editcategory/<?=$val->getId()?>"><i class="bi bi-pencil-square"></i></a></p>
                             </div>
                         </div>
