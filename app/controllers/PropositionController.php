@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Proposition;
 use app\models\Exchange;
 
+
 use Flight;
 use flight\Engine;
 
@@ -77,7 +78,8 @@ class PropositionController
         return $propositions;
     }
 
-    public static function allconts($idUser){
+    public static function allconts($idUser)
+    {
         $db = Flight::db();
         $counts = [];
         $counts['sent'] = Proposition::countProposalSent($db, $idUser);
@@ -85,4 +87,17 @@ class PropositionController
         return $counts;
     }
 
+    public static function allexchanges()
+    {
+        $db = Flight::db();
+        $exchanges = Exchange::findAll($db);
+        return $exchanges;
+    }
+
+    public static function getinfoexchange()
+    {
+        $db = Flight::db();
+        $exchangeInfo = Proposition::getinfoexchange($db);
+        return $exchangeInfo;
+    }
 }
