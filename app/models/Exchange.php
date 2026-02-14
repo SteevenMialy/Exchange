@@ -7,77 +7,59 @@ use PDO;
 class Exchange
 {
     public $id;
-    private $id_proposition;
     private $date_exchange;
 
-    /* Champs issus de la vue */
-    private $id_object_offered;
-    private $id_object_requested;
-    private $offered_obj_name;
-    private $requested_obj_name;
-    private $offered_username;
-    private $requested_username;
+    /* Objet lié */
+    public $proposition;
 
     public function __construct(
         $id = null,
-        $id_proposition = null,
-        $date_exchange = null,
-        $id_object_offered = null,
-        $id_object_requested = null,
-        $offered_obj_name = null,
-        $requested_obj_name = null,
-        $offered_username = null,
-        $requested_username = null
+        $date_exchange = null
     ) {
         $this->id = $id;
-        $this->id_proposition = $id_proposition;
         $this->date_exchange = $date_exchange;
-        $this->id_object_offered = $id_object_offered;
-        $this->id_object_requested = $id_object_requested;
-        $this->offered_obj_name = $offered_obj_name;
-        $this->requested_obj_name = $requested_obj_name;
-        $this->offered_username = $offered_username;
-        $this->requested_username = $requested_username;
     }
 
     /* ===================== FIND ===================== */
 
     public static function findAll($db): array
     {
-        $sql = "SELECT * FROM v_exchange_history ORDER BY date_exchange DESC";
+        $sql = "SELECT * FROM exch_exchange_history ORDER BY date_exchange DESC";
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
         $history = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $history[] = self::mapRowToObject($row);
+            $exchange = self::mapRowToObject($row);
+            $exchange->proposition = Proposition::findById($db, $row['id_proposition']);
+            $history[] = $exchange;
         }
         return $history;
     }
 
     public static function findById($db, $id)
     {
-        $sql = "SELECT * FROM v_exchange_history WHERE id = :id";
+        $sql = "SELECT * FROM exch_exchange_history WHERE id = :id";
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id' => $id
         ]);
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return self::mapRowToObject($row);
+            $exchange = self::mapRowToObject($row);
+            $exchange->proposition = Proposition::findById($db, $row['id_proposition']);
+            return $exchange;
         }
         return null;
     }
 
     public static function findByUser($db, $id_user): array
     {
-        $sql = "SELECT * FROM v_exchange_history
-                WHERE offered_username = (
-                    SELECT username FROM exch_user WHERE id = :id_user
-                )
-                OR requested_username = (
-                    SELECT username FROM exch_user WHERE id = :id_user
-                )";
+        $sql = "SELECT eh.* FROM exch_exchange_history eh
+                JOIN exch_proposition p ON eh.id_proposition = p.id
+                WHERE p.id_user_offered = :id_user
+                OR p.id_user_requested = :id_user
+                ORDER BY eh.date_exchange DESC";
 
         $stmt = $db->prepare($sql);
         $stmt->execute([
@@ -86,7 +68,9 @@ class Exchange
 
         $history = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $history[] = self::mapRowToObject($row);
+            $exchange = self::mapRowToObject($row);
+            $exchange->proposition = Proposition::findById($db, $row['id_proposition']);
+            $history[] = $exchange;
         }
         return $history;
     }
@@ -100,7 +84,7 @@ class Exchange
 
         $stmt = $db->prepare($sql);
         $stmt->execute([
-            ':id_proposition' => $this->id_proposition
+            ':id_proposition' => $this->proposition->id
         ]);
 
         $this->id = $db->lastInsertId();
@@ -112,14 +96,7 @@ class Exchange
     private static function mapRowToObject($row): Exchange{
         return new Exchange(
             $row['id'],
-            $row['id_proposition'],
-            $row['date_exchange'],
-            $row['id_object_offered'],
-            $row['id_object_requested'],
-            $row['offered_obj_name'],
-            $row['requested_obj_name'],
-            $row['offered_username'],
-            $row['requested_username']
+            $row['date_exchange']
         );
     }
 
@@ -127,17 +104,8 @@ class Exchange
 
     public function getId() { return $this->id; }
 
-    public function getIdProposition() { return $this->id_proposition; }
-    public function setIdProposition($id) { $this->id_proposition = $id; }
+    public function getProposition() { return $this->proposition; }
+    public function setProposition($proposition) { $this->proposition = $proposition; }
 
     public function getDateExchange() { return $this->date_exchange; }
-
-    public function getIdObjectOffered() { return $this->id_object_offered; }
-    public function getIdObjectRequested() { return $this->id_object_requested; }
-
-    public function getOfferedObjName() { return $this->offered_obj_name; }
-    public function getRequestedObjName() { return $this->requested_obj_name; }
-
-    public function getOfferedUsername() { return $this->offered_username; }
-    public function getRequestedUsername() { return $this->requested_username; }
 }

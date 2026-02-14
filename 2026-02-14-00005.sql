@@ -1,12 +1,11 @@
-UPDATE exch_category SET path_img = NULL WHERE id = 5 OR id = 6;
-UPDATE exch_pictures SET path_img = NULL WHERE id_object = 10;
+ALTER TABLE exch_proposition
+ADD COLUMN date_proposal DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
--- Mise à jour de la vue pour inclure id_status
--- Date: 2026-02-14
+UPDATE exch_proposition
+SET date_proposal = NOW()
+WHERE date_proposal IS NULL;
 
-DROP VIEW IF EXISTS v_proposition_details;
-
-CREATE VIEW v_proposition_details AS
+CREATE OR REPLACE VIEW v_proposition_details AS
 SELECT 
     p.id,
     p.id_object_offered,

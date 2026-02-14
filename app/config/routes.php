@@ -121,7 +121,24 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/shopCart', function () use ($app) {
-		$app->render('cart');
+		$app->render('cart',[
+			'propositions' => PropositionController::getPropositionsReceived(),
+			'counts' => PropositionController::allconts($_SESSION['user']->id),
+			'statusUser' => 1 // 1 pour les propositions reçues, 0 pour les propositions envoyées
+		]);
+	});
+
+	$router->get('/shopCart/sent', function () use ($app) {
+		$app->render('cart',[
+			'propositions' => PropositionController::getPropositionsSent(),
+			'counts' => PropositionController::allconts($_SESSION['user']->id),
+			'statusUser' => 0 // 1 pour les propositions reçues, 0 pour les propositions envoyées
+		]);
+	});
+
+	$router->get('/api/proposal/accept/@id', function ($id) use ($app) {
+		PropositionController::acceptProposal($id);
+		$app->render('about');
 	});
 
 	$router->get('/checkout', function () use ($app) {
@@ -194,6 +211,7 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	Flight::route('/propose', [PropositionController::class, 'proposeExchange']);
+	Flight::route('/propose/accept/@id', [PropositionController::class, 'acceptProposal']);
 
 	$router->get('/exchange/chossen/@id', function ($id) {
 		$object = ObjectController::getObject($id);

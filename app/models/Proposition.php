@@ -12,13 +12,12 @@ class Proposition
     private $id_user_offered;
     private $id_user_requested;
     private $id_status;
-
-    /* Champs provenant de la vue */
+    private $date_proposal;
     private $status;
-    private $offered_obj_name;
-    private $requested_obj_name;
-    private $offered_username;
-    private $requested_username;
+
+    /* Objets liés */
+    public $objectOffered;
+    public $objectRequested;
 
     public function __construct(
         $id = null,
@@ -27,11 +26,8 @@ class Proposition
         $id_user_offered = null,
         $id_user_requested = null,
         $id_status = null,
-        $status = null,
-        $offered_obj_name = null,
-        $requested_obj_name = null,
-        $offered_username = null,
-        $requested_username = null
+        $date_proposal = null,
+        $status = null
     ) {
         $this->id = $id;
         $this->id_object_offered = $id_object_offered;
@@ -39,11 +35,17 @@ class Proposition
         $this->id_user_offered = $id_user_offered;
         $this->id_user_requested = $id_user_requested;
         $this->id_status = $id_status;
+        $this->date_proposal = $date_proposal;
         $this->status = $status;
-        $this->offered_obj_name = $offered_obj_name;
-        $this->requested_obj_name = $requested_obj_name;
-        $this->offered_username = $offered_username;
-        $this->requested_username = $requested_username;
+    }
+
+    public function accept($db)
+    {
+        $sql = "UPDATE exch_proposition SET id_status = 2 WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id' => $this->id
+        ]);
     }
 
     /* ===================== FIND ===================== */
@@ -56,7 +58,10 @@ class Proposition
 
         $propositions = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $propositions[] = self::mapRowToObject($row);
+            $prop = self::mapRowToObject($row);
+            $prop->objectOffered = ExchObject::findById($db, $row['id_object_offered']);
+            $prop->objectRequested = ExchObject::findById($db, $row['id_object_requested']);
+            $propositions[] = $prop;
         }
         return $propositions;
     }
@@ -70,9 +75,90 @@ class Proposition
         ]);
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return self::mapRowToObject($row);
+            $prop = self::mapRowToObject($row);
+            $prop->objectOffered = ExchObject::findById($db, $row['id_object_offered']);
+            $prop->objectRequested = ExchObject::findById($db, $row['id_object_requested']);
+            return $prop;
         }
         return null;
+    }
+
+    public static function findProposalSent($db, $id_user): array
+    {
+        $sql = "SELECT * FROM v_proposition_details 
+                WHERE id_user_requested = :id_user
+                AND id_status = 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $propositions = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $prop = self::mapRowToObject($row);
+            $prop->objectOffered = ExchObject::findById($db, $row['id_object_offered']);
+            $prop->objectRequested = ExchObject::findById($db, $row['id_object_requested']);
+            $propositions[] = $prop;
+        }
+        return $propositions;
+    }
+
+    public static function countProposalSent($db, $id_user): int
+    {
+        $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
+                WHERE id_user_requested = :id_user 
+                AND id_status = 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $count = 0;
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $count = $row['count'];
+        }
+        return $count;
+    }
+
+    public static function findProposalReceived($db, $id_user): array
+    {
+        $sql = "SELECT * FROM v_proposition_details 
+                WHERE id_user_offered = :id_user 
+                AND id_status = 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $propositions = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $prop = self::mapRowToObject($row);
+            $prop->objectOffered = ExchObject::findById($db, $row['id_object_offered']);
+            $prop->objectRequested = ExchObject::findById($db, $row['id_object_requested']);
+            $propositions[] = $prop;
+        }
+        return $propositions;
+    }
+
+    public static function countProposalReceived($db, $id_user): int
+    {
+        $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
+                WHERE id_user_offered = :id_user 
+                AND id_status = 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $count = 0;
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $count = $row['count'];
+        }
+        return $count;
     }
 
     public static function findByUser($db, $id_user): array
@@ -88,7 +174,10 @@ class Proposition
 
         $propositions = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $propositions[] = self::mapRowToObject($row);
+            $prop = self::mapRowToObject($row);
+            $prop->objectOffered = ExchObject::findById($db, $row['id_object_offered']);
+            $prop->objectRequested = ExchObject::findById($db, $row['id_object_requested']);
+            $propositions[] = $prop;
         }
         return $propositions;
     }
@@ -152,11 +241,8 @@ class Proposition
             $row['id_user_offered'],
             $row['id_user_requested'],
             $row['id_status'],
-            $row['status'],
-            $row['offered_obj_name'],
-            $row['requested_obj_name'],
-            $row['offered_username'],
-            $row['requested_username']
+            $row['date_proposal'],
+            $row['status']
         );
     }
 
@@ -167,6 +253,12 @@ class Proposition
     public function getIdObjectOffered() { return $this->id_object_offered; }
     public function setIdObjectOffered($id) { $this->id_object_offered = $id; }
 
+    public function getObjectOffered() { return $this->objectOffered; }
+    public function setObjectOffered($object) { $this->objectOffered = $object; }
+
+    public function getObjectRequested() { return $this->objectRequested; }
+    public function setObjectRequested($object) { $this->objectRequested = $object; }
+
     public function getIdObjectRequested() { return $this->id_object_requested; }
     public function setIdObjectRequested($id) { $this->id_object_requested = $id; }
 
@@ -176,11 +268,7 @@ class Proposition
     public function getIdUserRequested() { return $this->id_user_requested; }
     public function setIdUserRequested($id) { $this->id_user_requested = $id; }
 
+    public function getDateProposal() { return $this->date_proposal; }
+
     public function getStatus() { return $this->status; }
-
-    public function getOfferedObjName() { return $this->offered_obj_name; }
-    public function getRequestedObjName() { return $this->requested_obj_name; }
-
-    public function getOfferedUsername() { return $this->offered_username; }
-    public function getRequestedUsername() { return $this->requested_username; }
 }

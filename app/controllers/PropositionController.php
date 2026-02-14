@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Proposition;
+use app\models\Exchange;
 
 use Flight;
 use flight\Engine;
@@ -14,6 +15,27 @@ class PropositionController
     public function __construct($app)
     {
         $this->app = $app;
+    }
+
+    public static function acceptProposal($idProposal)
+    {
+        $proposal = Proposition::findById(Flight::db(), $idProposal);
+        if ($proposal) {
+            $db = Flight::db();
+            $proposal->accept($db);
+            $exchange = new Exchange();
+            $exchange->proposition = $proposal;
+            $exchange->insert($db);
+            Flight::json([
+                'success' => true,
+                'message' => 'Proposition acceptée avec succès'
+            ]);
+        } else {
+            Flight::json([
+                'success' => false,
+                'message' => 'Proposition non trouvée'
+            ]);
+        }
     }
 
     public static function proposeExchange()
@@ -38,6 +60,28 @@ class PropositionController
             'success' => true,
             'message' => 'Proposition créée avec succès'
         ]);
+    }
+
+    public static function getPropositionsSent()
+    {
+        $idUser = $_SESSION['user']->id;
+        $propositions = Proposition::findProposalSent(Flight::db(), $idUser);
+        return $propositions;
+    }
+
+    public static function getPropositionsReceived()
+    {
+        $idUser = $_SESSION['user']->id;
+        $propositions = Proposition::findProposalReceived(Flight::db(), $idUser);
+        return $propositions;
+    }
+
+    public static function allconts($idUser){
+        $db = Flight::db();
+        $counts = [];
+        $counts['sent'] = Proposition::countProposalSent($db, $idUser);
+        $counts['received'] = Proposition::countProposalReceived($db, $idUser);
+        return $counts;
     }
 
 }
