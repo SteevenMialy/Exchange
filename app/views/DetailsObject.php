@@ -117,6 +117,7 @@
                     <button class="btn btn-warning btn-lg fw-semibold" type="button">
                         Echanger cet objet
                     </button>
+                    <p id="exchange-message" class="text-success d-none">Proposition d'échange envoyée !</p>
                 </div>
             </div>
         </div>
@@ -131,13 +132,13 @@
                             <div class="col-md-4 mb-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="text-muted">ID de l'objet</span>
-                                    <span class="fw-semibold">#1234</span>
+                                    <span class="fw-semibold">#<?= htmlspecialchars($object->id ?? ''); ?></span>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="d-flex justify-content-between">
                                     <span class="text-muted">Catégorie de photos</span>
-                                    <span class="fw-semibold">#5</span>
+                                    <span class="fw-semibold">#<?= htmlspecialchars($object->getIdCategory() ?? ''); ?></span>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
