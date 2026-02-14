@@ -37,6 +37,12 @@ class ObjectController
 		return $objs;
 	}
 
+	public static function verification($id_object, $id_user): bool
+	{
+		$obj = new ExchObject();
+		return $obj->verification(Flight::db(), $id_user, $id_object);
+	}
+
 	public static function insertionobject(){
 
 		$request = Flight::request();
