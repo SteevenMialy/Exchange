@@ -74,15 +74,15 @@
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<!-- jQuery MUST be loaded first -->
+<script src="<?= BASE_URL ?>/js/jquery-3.6.0.min.js"></script>
 
+<!-- Then libraries that depend on jQuery -->
+<script src="<?= BASE_URL ?>/lib/easing/easing.min.js"></script>
+<script src="<?= BASE_URL ?>/lib/owlcarousel/owl.carousel.min.js"></script>
 
-<script src="js/main.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include Bootstrap Bundle JS -->
+<!-- Bootstrap Bundle JS -->
 <script src="<?= BASE_URL ?>/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Include Main JS -->
+<!-- Main JS -->
 <script src="<?= BASE_URL ?>/js/main.js"></script>

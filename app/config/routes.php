@@ -249,6 +249,8 @@ $router->group('', function (Router $router) use ($app) {
 
 	Flight::route('/propose', [PropositionController::class, 'proposeExchange']);
 	Flight::route('/propose/accept/@id', [PropositionController::class, 'acceptProposal']);
+	Flight::route('/propose/refuse/@id', [PropositionController::class, 'refuseProposal']);
+
 
 	$router->get('/exchange/chossen/@id', function ($id) {
 		$object = ObjectController::getObject($id);

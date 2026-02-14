@@ -84,7 +84,9 @@ class ExchObject
 
     public function findNotBelongedObject($db, $id_user): array
     {
-        $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user";
+        $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user
+        AND id NOT IN (SELECT id_object_offered FROM exch_proposition WHERE (id_user_offered = :id_user OR id_user_requested = :id_user) AND id_status = 1)
+        AND id NOT IN (SELECT id_object_requested FROM exch_proposition WHERE (id_user_offered = :id_user OR id_user_requested = :id_user) AND id_status = 1)";
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id_user' => $id_user

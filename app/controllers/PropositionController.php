@@ -40,6 +40,24 @@ class PropositionController
         }
     }
 
+    public static function refuseProposal($idProposal)
+    {
+        $proposal = Proposition::findById(Flight::db(), $idProposal);
+        if ($proposal) {
+            $db = Flight::db();
+            $proposal->updateStatus($db, 3); // Mettre à jour le statut à "refusée"
+            Flight::json([
+                'success' => true,
+                'message' => 'Proposition refusée avec succès'
+            ]);
+        } else {
+            Flight::json([
+                'success' => false,
+                'message' => 'Proposition non trouvée'
+            ]);
+        }
+    }
+
     public static function proposeExchange()
     {
         $request = Flight::request();
@@ -82,8 +100,10 @@ class PropositionController
     {
         $db = Flight::db();
         $counts = [];
-        $counts['sent'] = Proposition::countProposalSent($db, $idUser);
-        $counts['received'] = Proposition::countProposalReceived($db, $idUser);
+        $counts['waiting'] = Proposition::countProposalSent($db, $idUser);
+        $counts['pending'] = Proposition::countProposalReceived($db, $idUser);
+        $counts['accepted'] = Proposition::countProposalAccepted($db, $idUser);
+        $counts['refused'] = Proposition::countProposalRefused($db, $idUser);
         return $counts;
     }
 

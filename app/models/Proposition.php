@@ -52,7 +52,14 @@ class Proposition
                         WHEN id = :id_object_offered THEN :id_user_requested
                         WHEN id = :id_object_requested THEN :id_user_offered
                     END
-                    WHERE id IN (:id_object_offered, :id_object_requested)";
+                    WHERE id = :id_object_offered";
+
+            $sql1 = "UPDATE exch_object 
+                    SET id_user = CASE 
+                        WHEN id = :id_object_offered THEN :id_user_requested
+                        WHEN id = :id_object_requested THEN :id_user_offered
+                    END
+                    WHERE id = :id_object_requested";
 
             $stmt = $db->prepare($sql);
             $result = $stmt->execute([
@@ -62,8 +69,16 @@ class Proposition
                 ':id_user_requested' => $this->id_user_requested
             ]);
 
+            $stmt1 = $db->prepare($sql1);
+            $result1 = $stmt1->execute([
+                ':id_object_offered' => $this->id_object_offered,
+                ':id_object_requested' => $this->id_object_requested,
+                ':id_user_offered' => $this->id_user_offered,
+                ':id_user_requested' => $this->id_user_requested
+            ]);
+
             $db->commit();
-            return $result;
+            return $result && $result1;
         } catch (\Exception $e) {
             $db->rollBack();
             throw $e;
@@ -113,7 +128,7 @@ class Proposition
         return null;
     }
 
-    public static function findProposalSent($db, $id_user): array
+    public static function findProposalReceived($db, $id_user): array
     {
         $sql = "SELECT * FROM v_proposition_details 
                 WHERE id_user_requested = :id_user
@@ -134,7 +149,7 @@ class Proposition
         return $propositions;
     }
 
-    public static function countProposalSent($db, $id_user): int
+    public static function countProposalReceived($db, $id_user): int
     {
         $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
                 WHERE id_user_requested = :id_user 
@@ -152,7 +167,7 @@ class Proposition
         return $count;
     }
 
-    public static function findProposalReceived($db, $id_user): array
+    public static function findProposalSent($db, $id_user): array
     {
         $sql = "SELECT * FROM v_proposition_details 
                 WHERE id_user_offered = :id_user 
@@ -173,11 +188,47 @@ class Proposition
         return $propositions;
     }
 
-    public static function countProposalReceived($db, $id_user): int
+    public static function countProposalSent($db, $id_user): int
     {
         $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
                 WHERE id_user_offered = :id_user 
                 AND id_status = 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $count = 0;
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $count = $row['count'];
+        }
+        return $count;
+    }
+
+    public static function countProposalAccepted($db, $id_user): int
+    {
+        $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
+                WHERE id_user_requested = :id_user 
+                AND id_status = 2";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $count = 0;
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $count = $row['count'];
+        }
+        return $count;
+    }
+
+    public static function countProposalRefused($db, $id_user): int
+    {
+        $sql = "SELECT COUNT(*) as count FROM v_proposition_details 
+                WHERE id_user_requested = :id_user 
+                AND id_status = 3";
 
         $stmt = $db->prepare($sql);
         $stmt->execute([
