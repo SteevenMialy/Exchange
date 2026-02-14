@@ -72,11 +72,14 @@
                                         <?= $pricediff ?> $
                                     </td>
                                     <td class="align-middle">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-info" onclick="seedetails(<?= $prop->id ?>)"><i class="fa fa-eye"></i></button>
-                                            <button type="button" class="btn btn-sm btn-success ml-2" onclick="acceptProposal(<?= $prop->id ?>)"><i class="fa fa-check"></i></button>
-                                            <button type="button" class="btn btn-sm btn-danger ml-2" onclick="refuseProposal(<?= $prop->id ?>)"><i class="fa fa-times"></i></button>
-                                        </div>
+                                        <?php if ($prop->getStatus() == "pending") { ?>
+                                            <p class="text-info">Waiting for response</p>
+                                            <td class="align-middle">
+                                        <?php } elseif ($prop->getStatus() == "accepted") { ?>
+                                            <p class="text-success">Accepted</p>
+                                        <?php } elseif ($prop->getStatus() == "refused") { ?>
+                                            <p class="text-danger">Refused</p>
+                                        <?php } ?>
                                     </td>
                                 <?php }?>
 
@@ -98,28 +101,28 @@
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
-                            <a href="">
+                            <a href="<?= BASE_URL ?>/shopCart">
                                 <h6 class="font-weight-medium"><span class="fa fa-eye"></span> Total arrival pending</h6>
                             </a>
-                            <h6 class="font-weight-medium">0</h6>
+                            <h6 class="font-weight-medium"><?= $counts['pending'] ?? 0 ?></h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
-                            <a href="">
+                            <a href="<?= BASE_URL ?>/shopCart/sent">
                                 <h6 class="font-weight-medium"><span class="fa fa-eye"></span> Total proposition waiting</h6>
                             </a>
-                            <h6 class="font-weight-medium">0</h6>
+                            <h6 class="font-weight-medium"><?= $counts['waiting'] ?? 0 ?></h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <a href="">
                                 <h6 class="font-weight-medium"><span class="fa fa-eye"></span> Total accepted</h6>
                             </a>
-                            <h6>0</h6>
+                            <h6 class="font-weight-medium"><?= $counts['accepted'] ?? 0 ?></h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <a href="">
                                 <h6 class="font-weight-medium"><span class="fa fa-eye"></span> Total refused</h6>
                             </a>
-                            <h6 class="font-weight-medium">0</h6>
+                            <h6 class="font-weight-medium"><?= $counts['refused'] ?? 0 ?></h6>
                         </div>
                     </div>
                     <div class="pt-2">

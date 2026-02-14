@@ -155,8 +155,8 @@ exchangeForm.addEventListener("submit", function (e) {
         if (response.ok) {
             let rep = response.json();
             rep.then(data => {
-                if (data.success && confirm(data.message + "\nVoulez-vous retourner à l'accueil ?")) {
-                    window.location.href = baseUrl + "/home";
+                if (data.success) {
+                    window.location.href = baseUrl + "/shopCart";
                 } else {
                     alert("Erreur lors de l'échange.");
                 }
