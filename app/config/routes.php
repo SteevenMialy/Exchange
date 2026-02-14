@@ -82,7 +82,6 @@ $router->group('', function (Router $router) use ($app) {
 	Flight::route('/login', [UserController::class, 'check']);
 
 	$router->get('/home', function () use ($app) {
-		$id = $_SESSION['user']->id ?? null;
 		//$controller = new ObjectController($app);
 		$categories = new CategoryController($app);
 		$catArray = [];
@@ -107,7 +106,10 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/shop', function () use ($app) {
-		$app->render('shop');
+		$objects = ObjectController::getAllNotBelongedObject();
+		$app->render('shop', [
+			'objects' => $objects
+		]);
 	});
 
 	$router->get('/shopCart', function () use ($app) {
