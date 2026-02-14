@@ -100,9 +100,16 @@ $router->group('', function (Router $router) use ($app) {
 	});
 
 	$router->get('/adminpage', function () use ($app) {
-		$controller = new CategoryController($app);
+		$categories = new CategoryController($app);
+		$catArray = [];
+		$catArray = $categories->allcategory();
+		$count = [];
+		foreach ($catArray as $category) {
+			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
+		}
 		$app->render('AdminPage', [
-			'categories' => CategoryController::allcategory()
+			'categories' => $catArray,
+			'counts' => $count
 		]);
 	});
 
