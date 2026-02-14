@@ -1,39 +1,6 @@
-<?php
-
-
-
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>MultiShop - Online Shop Website Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Font Awesome -->
-    <link href="lib/fontawesome/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-
-    <!-- Bootstrap -->
-
-</head>
+<?php include 'includes/header.php'; ?>
 
 <body>
-    <?php include 'includes/header.php'; ?>
 
 
     <!-- Carousel Start -->
@@ -138,195 +105,114 @@
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <?php if (isset($categories) && !empty($categories) && isset($counts)) { ?>
-                            <?php foreach ($categories as $category) { ?>
+        <?php if (!empty($categories)) { ?>
+            <div class="row px-xl-5 pb-3">
+                <?php foreach ($categories as $val) { ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <a class="text-decoration-none" href="">
+                            <div class="cat-item d-flex align-items-center mb-4">
+                                <?php $pic = $val->getImg() ?? "default.webp"; ?>
                                 <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                    <img class="img-fluid" src="uploads/category/<?= htmlspecialchars($category->getImg()); ?>" alt="<?= htmlspecialchars($category->getNomCategory()); ?>">
+                                    <img class="img-fluid" src="uploads/category/<?= $pic ?>" alt="">
                                 </div>
                                 <div class="flex-fill pl-3">
-                                    <h6><?php echo htmlspecialchars($category->getNomCategory()); ?></h6>
-                                    <small class="text-body"><?php echo $counts[$category->id]; ?> objets</small>
-                                </div>
-                            <?php } ?>
-                        <?php  } ?>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <!-- Categories End -->
-
-
-        <!-- Products Start -->
-        <div class="container-fluid pt-5 pb-3">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
-            <div class="row px-xl-5">
-                <?php if (isset($objects) && !empty($objects)) {
-                    foreach ($objects as $obj) { ?>
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-
-                            <div class="product-item bg-light mb-4">
-
-                                <div class="product-img position-relative overflow-hidden">
-                                    <?php
-                                    $firstPic = isset($pictures[$obj->id][0])
-                                        ? $pictures[$obj->id][0]->getPathImg()
-                                        : 'product-1.jpg';
-                                    ?>
-                                    <img class="img-fluid w-100" src="uploads/object/<?php echo htmlspecialchars($firstPic); ?>" alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href=""> <a href="<?= BASE_URL ?>/object/<?= $obj->id ?>" class="btn btn-primary btn-sm">Voir détails</a>
-                                            <i class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center py-4">
-
-                                    <a class="h6 text-decoration-none text-truncate" href="/details/<?php echo $obj->id; ?>"><?php echo htmlspecialchars($obj->id); ?></a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5><?php echo htmlspecialchars($obj->getPrix()); ?>€</h5>
-                                        <h6 class="text-muted ml-2"><del>4 000 000€€</del></h6>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small>(99)</small>
-                                    </div>
+                                    <h6><?= $val->getNomCategory() ?></h6>
+                                    <small class="text-body"><?php echo $counts[$val->getId()]; ?> objects</small>
                                 </div>
                             </div>
-
-                        </div>
-                <?php }
-                } ?>
-            </div>
-        </div>
-        <!-- Products End -->
-
-
-        <!-- Offer Start -->
-        <div class="container-fluid pt-5 pb-3">
-            <div class="row px-xl-5">
-                <div class="col-md-6">
-                    <div class="product-offer mb-30" style="height: 300px;">
-                        <img class="img-fluid" src="img/offer-1.jpg" alt="">
-                        <div class="offer-text">
-                            <h6 class="text-white text-uppercase">Save 20%</h6>
-                            <h3 class="text-white mb-3">Special Offer</h3>
-                            <a href="" class="btn btn-primary">Shop Now</a>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="product-offer mb-30" style="height: 300px;">
-                        <img class="img-fluid" src="img/offer-2.jpg" alt="">
-                        <div class="offer-text">
-                            <h6 class="text-white text-uppercase">Save 20%</h6>
-                            <h3 class="text-white mb-3">Special Offer</h3>
-                            <a href="" class="btn btn-primary">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
-        </div>
-        <!-- Offer End -->
+        <?php } ?>
+    </div>
+    <!-- Categories End -->
 
 
-        <!-- Products Start -->
-        <div class="container-fluid pt-5 pb-3">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
-            <div class="row px-xl-5">
-                <?php if (isset($objects) && !empty($objects)) {
-                    foreach ($objects as $obj) { ?>
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+    <!-- Products Start -->
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
+        <div class="row px-xl-5">
+            <?php if (isset($objects) && !empty($objects)) {
+                foreach ($objects as $obj) { ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
 
-                            <div class="product-item bg-light mb-4">
+                        <div class="product-item bg-light mb-4">
 
-                                <div class="product-img position-relative overflow-hidden">
-                                    <?php
-                                    $firstPic = isset($pictures[$obj->id][0])
-                                        ? $pictures[$obj->id][0]->getPathImg()
-                                        : 'product-1.jpg';
-                                    ?>
-                                    <img class="img-fluid w-100" src="uploads/object/<?php echo htmlspecialchars($firstPic); ?>" alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center py-4">
-
-                                    <a class="h6 text-decoration-none text-truncate" href="/details/<?php echo $obj->id; ?>"><?php echo htmlspecialchars($obj->id); ?></a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5><?php echo htmlspecialchars($obj->getPrix()); ?>€</h5>
-                                        <h6 class="text-muted ml-2"><del>4 000 000€</del></h6>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small>(99)</small>
-                                    </div>
+                            <div class="product-img position-relative overflow-hidden">
+                                <?php
+                                $firstPic = $obj->pictures[0]->getPathImg() ?? "default.webp";
+                                ?>
+                                <img class="img-fluid w-100" src="uploads/object/<?php echo htmlspecialchars($firstPic); ?>" alt="">
+                                <div class="product-action">
+                                    <a class="btn btn-outline-dark btn-square" href="<?= BASE_URL ?>/object/<?php echo $obj->id; ?>"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-heart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
                                 </div>
                             </div>
+                            <div class="text-center py-4">
 
+                                <a class="h6 text-decoration-none text-truncate" href="<?= BASE_URL ?>/object/<?php echo $obj->id; ?>"><?php echo htmlspecialchars($obj->getObjName()); ?></a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5><?php echo htmlspecialchars($obj->getPrix()); ?>$</h5>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-center mb-1">
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small>(99)</small>
+                                </div>
+                            </div>
                         </div>
-                <?php }
-                } ?>
-            </div>
+
+                    </div>
+            <?php }
+            } ?>
         </div>
-        <!-- Products End -->
+    </div>
+    <!-- Products End -->
 
 
-        <!-- Vendor Start -->
-        <div class="container-fluid py-5">
-            <div class="row px-xl-5">
-                <div class="col">
-                    <div class="owl-carousel vendor-carousel">
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-1.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-2.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-3.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-4.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-5.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-6.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-7.jpg" alt="">
-                        </div>
-                        <div class="bg-light p-4">
-                            <img src="img/vendor-8.jpg" alt="">
-                        </div>
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel vendor-carousel">
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-1.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-2.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-3.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-4.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-5.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-6.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-7.jpg" alt="">
+                    </div>
+                    <div class="bg-light p-4">
+                        <img src="img/vendor-8.jpg" alt="">
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Vendor End -->
+    </div>
+    <!-- Vendor End -->
 
-        <?php include 'includes/footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
 
 </body>
 

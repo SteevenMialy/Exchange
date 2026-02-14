@@ -95,7 +95,7 @@
                 <h1 class="h2 mb-3 fw-bold text-dark"><?= htmlspecialchars($object->getObjName() ?? ''); ?></h1>
                 
                 <div class="mb-4">
-                    <h3 class="h4 text-success fw-bold"><?= number_format($object->getPrix(), 2, ',', ' ') ?> Ar</h3>
+                    <h3 class="h4 text-success fw-bold"><?= number_format($object->getPrix(), 2, ',', ' ') ?> $</h3>
                 </div>
 
                 <div class="mb-4">
