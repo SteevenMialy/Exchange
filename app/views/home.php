@@ -105,26 +105,26 @@
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
-        <div class="row px-xl-5 pb-3">
-            <?php if (!empty($categories) && isset($counts)) { ?>
+        <?php if (!empty($categories)) { ?>
+            <div class="row px-xl-5 pb-3">
                 <?php foreach ($categories as $val) { ?>
-                    <?php $pic = $val->getImg() ?? 'default.webp'; ?>
                     <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                         <a class="text-decoration-none" href="">
                             <div class="cat-item d-flex align-items-center mb-4">
+                                <?php $pic = $val->getImg() ?? "default.webp"; ?>
                                 <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                    <img class="img-fluid" src="<?= BASE_URL ?>/uploads/category/<?= htmlspecialchars($pic) ?>" alt="">
+                                    <img class="img-fluid" src="uploads/category/<?= $pic ?>" alt="">
                                 </div>
                                 <div class="flex-fill pl-3">
-                                    <h6><?= htmlspecialchars($val->getNomCategory() ?? '') ?></h6>
-                                    <small class="text-body"><?= (int)($counts[$val->id] ?? 0) ?> objets</small>
+                                    <h6><?= $val->getNomCategory() ?></h6>
+                                    <small class="text-body"><?php echo $counts[$val->getId()]; ?> objects</small>
                                 </div>
                             </div>
                         </a>
                     </div>
                 <?php } ?>
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
     </div>
     <!-- Categories End -->
 
@@ -141,9 +141,9 @@
 
                             <div class="product-img position-relative overflow-hidden">
                                 <?php
-                                $firstPic = isset($obj->pictures[0]) ? $obj->pictures[0]->getPathImg() : 'default.webp';
+                                $firstPic = $obj->pictures[0]->getPathImg() ?? "default.webp";
                                 ?>
-                                <img class="img-fluid w-100" src="<?= BASE_URL ?>/uploads/object/<?php echo htmlspecialchars($firstPic); ?>" alt="" style="height: 250px; object-fit: cover;">
+                                <img class="img-fluid w-100" src="uploads/object/<?php echo htmlspecialchars($firstPic); ?>" alt="">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href="<?= BASE_URL ?>/object/<?php echo $obj->id; ?>"><i class="fa fa-eye"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-heart"></i></a>
@@ -155,7 +155,7 @@
 
                                 <a class="h6 text-decoration-none text-truncate" href="<?= BASE_URL ?>/object/<?php echo $obj->id; ?>"><?php echo htmlspecialchars($obj->getObjName()); ?></a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5><?php echo htmlspecialchars($obj->getPrix()); ?>€</h5>
+                                    <h5><?php echo htmlspecialchars($obj->getPrix()); ?>$</h5>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-center mb-1">
@@ -169,9 +169,9 @@
                             </div>
                         </div>
 
-                        </div>
-                    <?php }
-                    } ?>
+                    </div>
+            <?php }
+            } ?>
         </div>
     </div>
     <!-- Products End -->
