@@ -114,9 +114,9 @@
                 </div>
 
                 <div class="d-grid gap-2 mb-4">
-                    <button class="btn btn-warning btn-lg fw-semibold" type="button">
+                    <a href="<?= BASE_URL ?>/exchange/<?= $object->id ?>" class="btn btn-warning btn-lg fw-semibold">
                         Echanger cet objet
-                    </button>
+                    </a>
                     <p id="exchange-message" class="text-success d-none">Proposition d'échange envoyée !</p>
                 </div>
             </div>
