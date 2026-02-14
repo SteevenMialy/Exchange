@@ -47,6 +47,10 @@ $router->group('', function (Router $router) use ($app) {
 		]);
 	});
 
+	$router->get('/about', function () use ($app) {
+		$app->render('about');
+	});
+
 
 	$router->get('/newcategory', function () use ($app) {
 		$app->render('InsertCategory');
@@ -127,12 +131,15 @@ $router->group('', function (Router $router) use ($app) {
 		foreach ($catArray as $category) {
 			$count[$category->id] = CategoryController::countObjectsInCategory($category->id);
 		}
+		$toutexchanges = PropositionController::allexchanges();
+		$count = count($toutexchanges);
 		$alluser=UserController::getAllUsers();
 		$countUser=$alluser ? count($alluser) : 0;
 		$app->render('AdminPage', [
 			'categories' => $catArray,
 			'counts' => $count,
-			'countUser' => $countUser
+			'countUser' => $countUser,
+			'toutexchanges' => $count
 		]);
 	});
 
@@ -217,6 +224,13 @@ $router->group('', function (Router $router) use ($app) {
 		$object = ObjectController::getObject($id);
 		$app->render('DetailsObject', [
 			'object' => $object
+		]);
+	});
+
+	$router->get('/appartenance', function () use ($app) {
+		$echange = PropositionController::getinfoexchange(Flight::db());
+		$app->render('Appartenance', [
+			'echange' => $echange
 		]);
 	});
 
