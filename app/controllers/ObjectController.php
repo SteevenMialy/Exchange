@@ -26,7 +26,7 @@ class ObjectController
 	public static function getAllNotBelongedObject()
 	{
 		$obj = new ExchObject();
-		$objs = $obj->findNotBelongedObject(Flight::db());
+		$objs = $obj->findNotBelongedObject(Flight::db(),$_SESSION['user']->id);
 		return $objs;
 	}
 
