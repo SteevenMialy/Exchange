@@ -135,54 +135,10 @@
     </div>
     <!-- Cart End -->
 
-
     <script>
-        function acceptProposal(id) {
-            if (confirm("Êtes-vous sûr d'accepter cette proposition ?")) {
-                fetch("<?= BASE_URL ?>/propose/accept/" + id, {
-                    method: "GET"
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert("Erreur lors de l'acceptation de la proposition.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Erreur lors de l'acceptation de la proposition.");
-                });
-            }
-        }
-
-        function refuseProposal(id) {
-            if (confirm("Êtes-vous sûr de refuser cette proposition ?")) {
-                fetch("<?= BASE_URL ?>/propose/refuse/" + id, {
-                    method: "GET"
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        location.reload();
-                    } else {
-                        alert("Erreur lors du refus de la proposition.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Erreur lors du refus de la proposition.");
-                });
-            }
-        }
-
-        function seedetails(id) {
-            window.location.href = "<?= BASE_URL ?>/propose/details/" + id;
-        }
+        const BASE_URL = "<?= BASE_URL ?>";
     </script>
+    <script src="<?= BASE_URL ?>/js/proposal-manager.js"></script>
     
     <?php include 'includes/footer.php'; ?>
 

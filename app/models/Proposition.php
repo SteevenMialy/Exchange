@@ -39,13 +39,33 @@ class Proposition
         $this->status = $status;
     }
 
-    public function accept($db)
+    public function exchangeOwners($db): bool
     {
-        $sql = "UPDATE exch_proposition SET id_status = 2 WHERE id = :id";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([
-            ':id' => $this->id
-        ]);
+        try {
+            $db->beginTransaction();
+
+            // Échanger les propriétaires des objets
+            $sql = "UPDATE exch_object 
+                    SET id_user = CASE 
+                        WHEN id = :id_object_offered THEN :id_user_requested
+                        WHEN id = :id_object_requested THEN :id_user_offered
+                    END
+                    WHERE id IN (:id_object_offered, :id_object_requested)";
+
+            $stmt = $db->prepare($sql);
+            $result = $stmt->execute([
+                ':id_object_offered' => $this->id_object_offered,
+                ':id_object_requested' => $this->id_object_requested,
+                ':id_user_offered' => $this->id_user_offered,
+                ':id_user_requested' => $this->id_user_requested
+            ]);
+
+            $db->commit();
+            return $result;
+        } catch (\Exception $e) {
+            $db->rollBack();
+            throw $e;
+        }
     }
 
     /* ===================== FIND ===================== */

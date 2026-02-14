@@ -22,7 +22,8 @@ class PropositionController
         $proposal = Proposition::findById(Flight::db(), $idProposal);
         if ($proposal) {
             $db = Flight::db();
-            $proposal->accept($db);
+            $proposal->updateStatus($db, 2); // Mettre à jour le statut à "acceptée"
+            $proposal->exchangeOwners($db); // Effectuer l'échange des objets
             $exchange = new Exchange();
             $exchange->proposition = $proposal;
             $exchange->insert($db);
