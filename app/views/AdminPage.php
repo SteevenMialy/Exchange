@@ -153,18 +153,20 @@
         </div>
     <?php } ?>
 
-     <?php if (isset($echange)) { ?>
+    <?php if (isset($toutexchanges)) { ?>
         <div class="container-fluid pt-5">
             <div class="row px-xl-5 pb-3">
                 <div class="col-lg-12 col-md-12 col-sm-12 pb-1">
                     <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                        <h1 class="fa fa-users text-primary m-0 mr-3"></h1>
-                        <h5 class="font-weight-semi-bold m-0">Nombre d'exchange : <?= $echange ?></h5>
+                        <h1 class="fa fa-handshake text-primary m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0">Nombre d'exchange : <?= $toutexchanges ?></h5>
                     </div>
                 </div>
             </div>
         </div>
     <?php } ?>
+
+
 
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
@@ -173,23 +175,23 @@
                         class="bi bi-plus-square"></i></a></span></h2>
         <?php if (!empty($categories)) { ?>
             <div class="row px-xl-5 pb-3">
-            <?php foreach ($categories as $val) { ?>
-                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <a class="text-decoration-none" href="">
-                        <div class="cat-item d-flex align-items-center mb-4">
-                            <?php $pic = $val->getImg() ?? "default.webp"; ?>
-                            <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                <img class="img-fluid" src="uploads/category/<?= $pic ?>" alt="">
+                <?php foreach ($categories as $val) { ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <a class="text-decoration-none" href="">
+                            <div class="cat-item d-flex align-items-center mb-4">
+                                <?php $pic = $val->getImg() ?? "default.webp"; ?>
+                                <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                                    <img class="img-fluid" src="uploads/category/<?= $pic ?>" alt="">
+                                </div>
+                                <div class="flex-fill pl-3">
+                                    <h6><?= $val->getNomCategory() ?></h6>
+                                    <small class="text-body"><?= $counts[$val->getId()] ?? 0 ?> objets</small>
+                                    <p><a href="<?= BASE_URL ?>/editcategory/<?= $val->getId() ?>"><i class="bi bi-pencil-square"></i></a></p>
+                                </div>
                             </div>
-                            <div class="flex-fill pl-3">
-                                <h6><?= $val->getNomCategory() ?></h6>
-                                <small class="text-body"><?= $counts[$val->getId()] ?? 0 ?> objets</small>
-                                <p><a href="<?=BASE_URL?>/editcategory/<?=$val->getId()?>"><i class="bi bi-pencil-square"></i></a></p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-             <?php } ?>
+                        </a>
+                    </div>
+                <?php } ?>
             </div>
         <?php } ?>
     </div>
