@@ -39,6 +39,8 @@ class Proposition
         $this->status = $status;
     }
 
+
+
     public function exchangeOwners($db): bool
     {
         try {
@@ -66,6 +68,14 @@ class Proposition
             $db->rollBack();
             throw $e;
         }
+    }
+
+    public static function getinfoexchange($db)
+    {
+        $sql = "SELECT * FROM v_proposition_details WHERE status = 'accepted'";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /* ===================== FIND ===================== */
@@ -268,27 +278,72 @@ class Proposition
 
     /* ===================== GETTERS & SETTERS ===================== */
 
-    public function getId() { return $this->id; }
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    public function getIdObjectOffered() { return $this->id_object_offered; }
-    public function setIdObjectOffered($id) { $this->id_object_offered = $id; }
+    public function getIdObjectOffered()
+    {
+        return $this->id_object_offered;
+    }
+    public function setIdObjectOffered($id)
+    {
+        $this->id_object_offered = $id;
+    }
 
-    public function getObjectOffered() { return $this->objectOffered; }
-    public function setObjectOffered($object) { $this->objectOffered = $object; }
+    public function getObjectOffered()
+    {
+        return $this->objectOffered;
+    }
+    public function setObjectOffered($object)
+    {
+        $this->objectOffered = $object;
+    }
 
-    public function getObjectRequested() { return $this->objectRequested; }
-    public function setObjectRequested($object) { $this->objectRequested = $object; }
+    public function getObjectRequested()
+    {
+        return $this->objectRequested;
+    }
+    public function setObjectRequested($object)
+    {
+        $this->objectRequested = $object;
+    }
 
-    public function getIdObjectRequested() { return $this->id_object_requested; }
-    public function setIdObjectRequested($id) { $this->id_object_requested = $id; }
+    public function getIdObjectRequested()
+    {
+        return $this->id_object_requested;
+    }
+    public function setIdObjectRequested($id)
+    {
+        $this->id_object_requested = $id;
+    }
 
-    public function getIdUserOffered() { return $this->id_user_offered; }
-    public function setIdUserOffered($id) { $this->id_user_offered = $id; }
+    public function getIdUserOffered()
+    {
+        return $this->id_user_offered;
+    }
+    public function setIdUserOffered($id)
+    {
+        $this->id_user_offered = $id;
+    }
 
-    public function getIdUserRequested() { return $this->id_user_requested; }
-    public function setIdUserRequested($id) { $this->id_user_requested = $id; }
+    public function getIdUserRequested()
+    {
+        return $this->id_user_requested;
+    }
+    public function setIdUserRequested($id)
+    {
+        $this->id_user_requested = $id;
+    }
 
-    public function getDateProposal() { return $this->date_proposal; }
+    public function getDateProposal()
+    {
+        return $this->date_proposal;
+    }
 
-    public function getStatus() { return $this->status; }
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }
