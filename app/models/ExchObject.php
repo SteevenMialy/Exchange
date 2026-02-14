@@ -82,7 +82,7 @@ class ExchObject
         return $objects;
     }
 
-    public function findNotBelongedObject($db,$id_user): array
+    public function findNotBelongedObject($db, $id_user): array
     {
         $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user";
         $stmt = $db->prepare($sql);
@@ -99,7 +99,7 @@ class ExchObject
         return $objects;
     }
 
-    public function insert($db,$data,$id_user): int
+    public function insert($db, $data, $id_user): int
     {
         $sql = "INSERT INTO exch_object (id_user, id_category, descript, prix, obj_name) 
                 VALUES (:id_user, :id_category, :descript, :prix, :obj_name)";
@@ -115,15 +115,14 @@ class ExchObject
 
         $this->id = $db->lastInsertId();
         return $this->id;
-
     }
 
     public static function lastinsert($db): ?ExchObject
     {
-         $id = $db->lastInsertId();
-            if ($id) {
-                return $id;
-            }
+        $id = $db->lastInsertId();
+        if ($id) {
+            return $id;
+        }
         return null;
     }
 
@@ -184,6 +183,63 @@ class ExchObject
         return $stmt->execute([
             ':id' => $this->id
         ]);
+    }
+
+   public function search($db, $titre, $category, $id_user): array
+{
+    $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user";
+    $params = [':id_user' => $id_user];
+
+    // filtre seulement si titre est rempli
+    if (!empty($titre)) {
+        $sql .= " AND obj_name LIKE :titre";
+        $params[':titre'] = "%$titre%";
+    }
+
+    // filtre seulement si category est remplie
+    if (!empty($category)) {
+        $sql .= " AND id_category = :category";
+        $params[':category'] = $category;
+    }
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+
+    $objects = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $obj = new ExchObject(
+            $row['id'],
+            $row['id_user'],
+            $row['id_category'],
+            $row['descript'],
+            $row['prix'],
+            $row['obj_name'],
+            $row['username'],
+            $row['nomcategory']
+        );
+        $obj->pictures = Picture::findByObjectId($db, $obj->id);
+        $objects[] = $obj;
+    }
+
+    return $objects;
+}
+
+
+    public static function searchByName($db, $searchTerm): array
+    {
+        $sql = "SELECT * FROM v_exch_object_details WHERE obj_name LIKE :searchTerm";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':searchTerm' => "%$searchTerm%"
+        ]);
+
+        $objects = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $objects[] = $obj;
+        }
+        return $objects;
     }
 
     public function getId()
@@ -260,5 +316,4 @@ class ExchObject
     {
         $this->categoryName = $categoryName;
     }
-
 }
