@@ -13,13 +13,12 @@
 
                     <a href="<?= BASE_URL ?>/ajoutobject" class="btn btn-primary btn-block">Ajouter object</a>
 
-                    <?php if (isset($objects) && !empty($objects)) { ?>
+                    <?php if (isset($objects) && !empty($objects) && isset($pictures) ) { ?>
                         <ul class="list-group">
                             <?php foreach ($objects as $item): ?>
                                 <?php if (!is_array($item) || !isset($item['id'])) continue; ?>
                                 <?php
-                                    $itemPics = $pictures[$item['id']] ?? [];
-                                    $firstPic = !empty($itemPics) ? $itemPics[0]->getPathImg() : null;
+                                    $firstPic = (isset($pictures[$item['id']][0])) ? $pictures[$item['id']][0]->getPathImg() : null;
                                 ?>
                                 <li class="list-group-item d-flex align-items-center" id="det<?= $item['id'] ?>">
                                     <?php if ($firstPic): ?>
