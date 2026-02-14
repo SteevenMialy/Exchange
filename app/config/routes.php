@@ -4,7 +4,8 @@ use app\controllers\CategoryController;
 use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
-use app\controllers\PIctureController;
+use app\controllers\PictureController;
+use app\controllers\PropositionController;
 
 use app\middlewares\SecurityHeadersMiddleware;
 use app\models\Category;
@@ -159,7 +160,7 @@ $router->group('', function (Router $router) use ($app) {
 
 		if (!empty($idobject)) {
 			// Insérer les images associées à l'objet
-			PIctureController::insertionpicture($idobject);
+			PictureController::insertionpicture($idobject);
 
 			$objects = ObjectController::getAllBelongedObject();
 			$app->render('Accueil', [
@@ -192,7 +193,7 @@ $router->group('', function (Router $router) use ($app) {
 		]);
 	});
 
-
+	Flight::route('/propose', [PropositionController::class, 'proposeExchange']);
 
 	$router->get('/exchange/chossen/@id', function ($id) {
 		$object = ObjectController::getObject($id);
@@ -203,6 +204,7 @@ $router->group('', function (Router $router) use ($app) {
 		$firstPicture = $object->pictures[0] ?? null;
 		Flight::json([
 			"id" => $object->id,
+			"id_owner" => $object->getIdUser(),
 			"obj_name" => $object->getObjName(),
 			"prix" => $object->getPrix(),
 			"image" => $firstPicture ? $firstPicture->getPathImg() : null

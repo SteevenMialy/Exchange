@@ -20,7 +20,7 @@
             <div class="col-lg-5 mb-30">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Votre objet</span></h5>
                 <div class="bg-light p-4">
-                    <form action="" method="post">
+                    <form action="<?= BASE_URL ?>/propose" method="post" id="exchangeForm">
                         <?php if (isset($object) && !empty($object)) { ?>
                             <?php
                             $firstPic = isset($object->pictures[0])
@@ -35,13 +35,15 @@
                                     <div class="img-thumbnail me-3 d-flex align-items-center justify-content-center bg-light" style="width:90px;height:90px;">Aucune</div>
                                 <?php endif; ?>
 
-                                <div class="flex-grow-1">
+                                <div class="flex-grow-1 ml-4">
                                     <div class="font-weight-semi-bold mb-1"><?= htmlspecialchars($object->getObjName()); ?></div>
                                     <div class="text-muted">Prix : <?= htmlspecialchars($object->getPrix()); ?> <span class="result">€</span></div>
                                 </div>
                             </div>
 
-                            <input type="hidden" name="idobject" value="<?= $object->id ?>">
+                            <input type="hidden" name="mine" value="<?= $object->id ?>">
+                            <input type="hidden" name="target" id="targetId" value="">
+                            <input type="hidden" name="possessor" id="possessorId" value="">
 
                             <button type="submit" class="btn btn-primary btn-block mt-3">Échanger</button>
                         <?php } else { ?>
@@ -74,7 +76,7 @@
                                             <div class="img-thumbnail me-3 d-flex align-items-center justify-content-center bg-light" style="width:80px; height:80px;">Aucune</div>
                                         <?php endif; ?>
 
-                                        <div class="flex-grow-1">
+                                        <div class="flex-grow-1 ml-4">
                                             <div class="font-weight-semi-bold"><?= htmlspecialchars($item->getObjName() ?? ''); ?></div>
                                         </div>
 

@@ -1,5 +1,11 @@
 let chosenPrice = null;
 
+const targetInput = document.getElementById("targetId");
+const possessorInput = document.getElementById("possessorId");
+
+
+const baseUrl = (window.BASE_URL || "").replace(/\/$/, "");
+
 document.querySelectorAll(".choosen-btn").forEach(btn => {
     btn.addEventListener("click", function (e) {
         e.preventDefault();
@@ -9,7 +15,6 @@ document.querySelectorAll(".choosen-btn").forEach(btn => {
             return;
         }
 
-        const baseUrl = (window.BASE_URL || "").replace(/\/$/, "");
 
         fetch(baseUrl + "/exchange/chossen/" + id)
             .then(res => res.json())
@@ -37,6 +42,9 @@ document.querySelectorAll(".choosen-btn").forEach(btn => {
                         </li>
                     </ul>
                 `;
+
+                targetInput.value = data.id;
+                possessorInput.value = data.id_owner;
 
                 // calcul bénéfice / perte
                 document.querySelectorAll(".object-item").forEach(item => {
@@ -125,5 +133,40 @@ document.querySelectorAll(".details-btn").forEach(btn => {
             .catch(() => {
                 detailsRow.innerHTML = `<div class="text-danger small">Erreur lors du chargement.</div>`;
             });
+    });
+});
+
+var exchangeForm = document.getElementById("exchangeForm");
+
+exchangeForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if(!targetInput.value || !possessorInput.value) {
+        alert("Veuillez choisir un objet à échanger.");
+        return;
+    }
+
+    var fd = new FormData(this);
+    fetch(baseUrl + "/propose", {
+        method: "POST",
+        body: fd
+    })
+    .then(response => {
+        if (response.ok) {
+            let rep = response.json();
+            rep.then(data => {
+                if (data.success && confirm(data.message + "\nVoulez-vous retourner à l'accueil ?")) {
+                    window.location.href = baseUrl + "/home";
+                } else {
+                    alert("Erreur lors de l'échange.");
+                }
+            });
+        } else {
+            alert("Erreur lors de l'échange.");
+        }
+    })
+    .catch(error => {
+        console.error("Erreur:", error);
+        alert("Erreur lors de l'échange.");
     });
 });
