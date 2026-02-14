@@ -4,8 +4,7 @@ use app\controllers\CategoryController;
 use app\controllers\UserController;
 use app\controllers\ObjectController;
 use app\controllers\AdminController;
-use app\controllers\DetailController;
-use app\controllers\PictureControlleur;
+use app\controllers\PictureController;
 
 use app\middlewares\SecurityHeadersMiddleware;
 use app\models\Category;
@@ -135,16 +134,8 @@ $router->group('', function (Router $router) use ($app) {
 
 	$router->get('/Accueil', function () use ($app) {
 		$objects = ObjectController::getAllBelongedObject();
-		$pictures = [];
-		foreach ($objects as $obj) {
-			if (!is_array($obj) || !isset($obj['id'])) {
-				continue;
-			}
-			$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
-		}
 		$app->render('Accueil', [
-			'objects'  => $objects,
-			'pictures' => $pictures
+			'objects'  => $objects
 		]);
 	});
 
@@ -164,19 +155,11 @@ $router->group('', function (Router $router) use ($app) {
 
 		if (!empty($idobject)) {
 			// Insérer les images associées à l'objet
-			PictureControlleur::insertionpicture($idobject);
+			PictureController::insertionpicture($idobject);
 
 			$objects = ObjectController::getAllBelongedObject();
-			$pictures = [];
-			foreach ($objects as $obj) {
-				if (!is_array($obj) || !isset($obj['id'])) {
-					continue;
-				}
-				$pictures[$obj['id']] = PictureControlleur::getPicturesByObjectId($obj['id']);
-			}
 			$app->render('Accueil', [
-				'objects'  => $objects,
-				'pictures' => $pictures
+				'objects'  => $objects
 			]);
 		} else {
 			$app->render('ajoutobject', [
@@ -185,15 +168,10 @@ $router->group('', function (Router $router) use ($app) {
 		}
 	});
 
-
-
-	$router->get('/details/@id', function ($id) use ($app) {
-		$controller = new ObjectController($app);
-		$object = $controller->getObject($id);
-		$pictures = PictureControlleur::getPicturesByObjectId($id);
-		$app->render('details', [
-			'object' => $object,
-			'pictures' => $pictures
+	$router->get('/object/@id', function ($id) use ($app) {
+		$object = ObjectController::getObject($id);
+		$app->render('DetailsObject', [
+			'object' => $object
 		]);
 	});
 }, [SecurityHeadersMiddleware::class]);

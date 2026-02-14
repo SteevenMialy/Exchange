@@ -13,31 +13,22 @@
                 </nav>
             </div>
         </div>
-
+        
+<?php if (isset($object)) { ?> 
         <div class="row g-4">
             <!-- Photos Section -->
             <div class="col-lg-6">
                 <div class="position-relative">
                     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="<?= BASE_URL ?>/img/product-1.jpg" 
-                                     class="d-block w-100 rounded" 
-                                     alt="Photo 1"
-                                     style="height: 400px; object-fit: cover;">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="<?= BASE_URL ?>/img/product-2.jpg" 
-                                     class="d-block w-100 rounded" 
-                                     alt="Photo 2"
-                                     style="height: 400px; object-fit: cover;">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="<?= BASE_URL ?>/img/product-3.jpg" 
-                                     class="d-block w-100 rounded" 
-                                     alt="Photo 3"
-                                     style="height: 400px; object-fit: cover;">
-                            </div>
+                            <?php foreach ($object->pictures as $index => $picture) {?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img src="<?= BASE_URL ?>/uploads/object/<?= htmlspecialchars($picture->getPathImg()) ?>" 
+                                         class="d-block w-100 rounded" 
+                                         alt="Photo <?= htmlspecialchars($picture->getId()) ?>"
+                                         style="height: 400px; object-fit: cover;">
+                                </div>
+                            <?php } ?>
                         </div>
                         
                         <!-- Boutons de navigation avec l'image -->
@@ -101,38 +92,30 @@
 
             <!-- Product Details Section -->
             <div class="col-lg-6">
-                <h1 class="h2 mb-3 fw-bold text-dark">Ordinateur Portable Dell XPS 15</h1>
+                <h1 class="h2 mb-3 fw-bold text-dark"><?= htmlspecialchars($object->getObjName() ?? ''); ?></h1>
                 
                 <div class="mb-4">
-                    <h3 class="h4 text-success fw-bold">2 500 000,00 Ar</h3>
+                    <h3 class="h4 text-success fw-bold"><?= number_format($object->getPrix(), 2, ',', ' ') ?> Ar</h3>
                 </div>
 
                 <div class="mb-4">
                     <h5 class="fw-semibold mb-2">Catégorie</h5>
-                    <span class="badge bg-primary fs-6">Électronique</span>
+                    <span class="badge bg-primary fs-6"><?= htmlspecialchars($object->getCategoryName() ?? ''); ?></span>
                 </div>
 
                 <div class="mb-4">
                     <h5 class="fw-semibold mb-2">Description</h5>
-                    <p class="text-muted">
-                        Ordinateur portable haut de gamme Dell XPS 15 avec processeur Intel Core i7, 16 Go de RAM et SSD de 512 Go.
-                        Écran tactile 15,6 pouces Full HD. État excellent, utilisé avec soin pendant 6 mois.
-                        <br><br>
-                        Inclus : chargeur d'origine, housse de protection et clavier externe.
-                    </p>
+                    <p class="text-muted"><?= nl2br(htmlspecialchars($object->getDescript() ?? '')); ?></p>
                 </div>
 
                 <div class="mb-4">
-                    <h6 class="fw-semibold mb-2">Vendeur</h6>
-                    <p class="mb-0">Jean Dupont</p>
+                    <h6 class="fw-semibold mb-2">Possesseur actuel</h6>
+                    <p class="mb-0"><?= htmlspecialchars($object->getUserName() ?? ''); ?></p>
                 </div>
 
                 <div class="d-grid gap-2 mb-4">
                     <button class="btn btn-warning btn-lg fw-semibold" type="button">
-                        Ajouter au panier
-                    </button>
-                    <button class="btn btn-link text-decoration-none p-0" type="button">
-                        Signaler une fraude
+                        Echanger cet objet
                     </button>
                 </div>
             </div>
@@ -219,7 +202,7 @@
             </div>
         </div>
     </div>
-
+<?php }?>
     <?php include 'includes/footer.php'; ?>
 </body>
 

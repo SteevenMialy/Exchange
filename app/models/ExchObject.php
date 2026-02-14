@@ -12,9 +12,11 @@ class ExchObject
     private $descript;
     private $prix;
     private $obj_name;
+    private $userName;
+    private $categoryName;
     public $pictures = [];
 
-    public function __construct($id = null, $id_user = null, $id_category = null, $descript = null, $prix = null, $obj_name = null)
+    public function __construct($id = null, $id_user = null, $id_category = null, $descript = null, $prix = null, $obj_name = null, $userName = null, $categoryName = null)
     {
         $this->id = $id;
         $this->id_user = $id_user;
@@ -22,11 +24,13 @@ class ExchObject
         $this->descript = $descript;
         $this->prix = $prix;
         $this->obj_name = $obj_name;
+        $this->userName = $userName;
+        $this->categoryName = $categoryName;
     }
 
     public function findObject($db, $conditions = [])
     {
-        $sql = "SELECT * FROM exch_object WHERE 1=1";
+        $sql = "SELECT * FROM v_exch_object_details WHERE 1=1";
         $params = [];
         if ($this->id_user !== null) {
             $sql .= " AND id_user = :id_user";
@@ -42,7 +46,7 @@ class ExchObject
 
         $objects = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
             $obj->pictures = Picture::findByObjectId($db, $obj->id);
             $objects[] = $obj;
         }
@@ -51,18 +55,7 @@ class ExchObject
 
     public function findBelongedObject($db, $id_user): array
     {
-        $sql = "SELECT * FROM exch_object WHERE id_user = :id_user";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([
-            ':id_user' => $id_user
-        ]);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function findNotBelongedObject($db,$id_user): array
-    {
-        $sql = "SELECT * FROM exch_object WHERE id_user != :id_user";
+        $sql = "SELECT * FROM v_exch_object_details WHERE id_user = :id_user";
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id_user' => $id_user
@@ -70,7 +63,26 @@ class ExchObject
 
         $objects = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $objects[] = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $objects[] = $obj;
+        }
+        return $objects;
+    }
+
+    public function findNotBelongedObject($db,$id_user): array
+    {
+        $sql = "SELECT * FROM v_exch_object_details WHERE id_user != :id_user";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':id_user' => $id_user
+        ]);
+
+        $objects = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $objects[] = $obj;
         }
         return $objects;
     }
@@ -103,30 +115,34 @@ class ExchObject
         return null;
     }
 
-    public static function findById($db, $id): ?Object
+    public static function findById($db, $id): ?ExchObject
     {
-        $sql = "SELECT * FROM exch_object WHERE id = :id";
+        $sql = "SELECT * FROM v_exch_object_details WHERE id = :id";
         $stmt = $db->prepare($sql);
         $stmt->execute([
             ':id' => $id
         ]);
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+        $object = null;
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $object = $obj;
         }
-        return null;
+        return $object;
     }
 
     public static function findAll($db): array
     {
-        $sql = "SELECT * FROM exch_object";
+        $sql = "SELECT * FROM v_exch_object_details";
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
         $objects = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $objects[] = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name']);
+            $obj = new ExchObject($row['id'], $row['id_user'], $row['id_category'], $row['descript'], $row['prix'], $row['obj_name'], $row['username'], $row['nomcategory']);
+            $obj->pictures = Picture::findByObjectId($db, $obj->id);
+            $objects[] = $obj;
         }
         return $objects;
     }
@@ -213,6 +229,24 @@ class ExchObject
         $this->obj_name = $obj_name;
     }
 
-   
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+
+    public function getCategoryName()
+    {
+        return $this->categoryName;
+    }
+
+    public function setCategoryName($categoryName)
+    {
+        $this->categoryName = $categoryName;
+    }
 
 }

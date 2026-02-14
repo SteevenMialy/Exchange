@@ -13,23 +13,22 @@
 
                     <a href="<?= BASE_URL ?>/ajoutobject" class="btn btn-primary btn-block">Ajouter object</a>
 
-                    <?php if (isset($objects) && !empty($objects) && isset($pictures) ) { ?>
-                        <ul class="list-group">
+                    <?php if (isset($objects) && !empty($objects) ) { ?>
+                        <ul class="list-group mt-3">
                             <?php foreach ($objects as $item): ?>
-                                <?php if (!is_array($item) || !isset($item['id'])) continue; ?>
                                 <?php
-                                    $firstPic = (isset($pictures[$item['id']][0])) ? $pictures[$item['id']][0]->getPathImg() : null;
+                                    $firstPic = (isset($item->pictures[0]) ? ($item->pictures[0])->getPathImg() : null);
                                 ?>
-                                <li class="list-group-item d-flex align-items-center" id="det<?= $item['id'] ?>">
+                                <li class="list-group-item d-flex align-items-center" id="det<?= $item->id ?>">
                                     <?php if ($firstPic): ?>
                                         <img src="uploads/object/<?= htmlspecialchars($firstPic) ?>" alt="" class="img-thumbnail me-3" style="width:80px; height:80px; object-fit:cover;">
                                     <?php else: ?>
                                         <div class="img-thumbnail me-3 d-flex align-items-center justify-content-center bg-light" style="width:80px; height:80px;">Aucune</div>
                                     <?php endif; ?>
-                                    <div class="flex-grow-1">
-                                        <?= htmlspecialchars($item['obj_name'] ?? ''); ?>
+                                    <div class="flex-grow-1 ml-4">
+                                        <?= htmlspecialchars($item->getObjName() ?? ''); ?>
                                     </div>
-                                    <a href="<?= BASE_URL ?>/details/<?= $item['id'] ?>" class="btn btn-primary btn-sm">Voir détails</a>
+                                    <a href="<?= BASE_URL ?>/object/<?= $item->id ?>" class="btn btn-primary btn-sm">Voir détails</a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
