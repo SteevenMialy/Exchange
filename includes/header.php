@@ -245,23 +245,7 @@
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                 <div class="navbar-nav w-100">
-                    <div class="nav-item dropdown dropend">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Dresses <i class="fa fa-angle-right float-end mt-1"></i></a>
-                        <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
-                            <a href="" class="dropdown-item">Men's Dresses</a>
-                            <a href="" class="dropdown-item">Women's Dresses</a>
-                            <a href="" class="dropdown-item">Baby's Dresses</a>
-                        </div>
-                    </div>
-                    <a href="" class="nav-item nav-link">Shirts</a>
-                    <a href="" class="nav-item nav-link">Jeans</a>
-                    <a href="" class="nav-item nav-link">Swimwear</a>
-                    <a href="" class="nav-item nav-link">Sleepwear</a>
-                    <a href="" class="nav-item nav-link">Sportswear</a>
-                    <a href="" class="nav-item nav-link">Jumpsuits</a>
-                    <a href="" class="nav-item nav-link">Blazers</a>
-                    <a href="" class="nav-item nav-link">Jackets</a>
-                    <a href="" class="nav-item nav-link">Shoes</a>
+                    <a href="/category/" class="nav-item nav-link">Shirts</a>
                 </div>
             </nav>
         </div>
