@@ -21,6 +21,7 @@
                 <div class="position-relative">
                     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
+                            <?php if(count($object->pictures) > 0) { ?>
                             <?php foreach ($object->pictures as $index => $picture) {?>
                                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                     <img src="<?= BASE_URL ?>/uploads/object/<?= htmlspecialchars($picture->getPathImg()) ?>" 
@@ -29,6 +30,14 @@
                                          style="height: 400px; object-fit: cover;">
                                 </div>
                             <?php } ?>
+                            <?php } else { ?>
+                                <div class="carousel-item active">
+                                    <img src="<?= BASE_URL ?>/uploads/object/default.webp" 
+                                         class="d-block w-100 rounded" 
+                                         alt="No image available"
+                                         style="height: 400px; object-fit: cover;">
+                                </div>
+                            <?php }?>
                         </div>
                         
                         <!-- Boutons de navigation avec l'image -->
